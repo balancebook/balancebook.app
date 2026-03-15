@@ -339,6 +339,44 @@
     .footer-links a { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
     .footer-links a:hover { color: var(--text); }
 
+    /* SCREENSHOTS */
+    .screenshots {
+      background: #111;
+      padding: 80px 24px;
+    }
+    .screenshots-inner {
+      max-width: 960px;
+      margin: 0 auto;
+    }
+    .screenshots .section-label { color: rgba(255,255,255,0.4); }
+    .screenshots .section-title { color: #fff; }
+    .screenshots-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .screenshot-frame {
+      background: #1a1a1a;
+      border-radius: 28px;
+      padding: 8px;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+    .screenshot-frame img {
+      width: 100%;
+      border-radius: 22px;
+      display: block;
+    }
+    .screenshot-label {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.3);
+      margin-top: 12px;
+      font-family: 'Inter', sans-serif;
+    }
+    @media (max-width: 720px) {
+      .screenshots-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
     /* RESPONSIVE */
     @media (max-width: 720px) {
       .hero { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px 48px; text-align: center; }
@@ -466,6 +504,39 @@
         <div class="feature-icon">📤</div>
         <h3>Export & Import</h3>
         <p>Export your data as JSON or CSV anytime. Import backups to a new ledger with one tap.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="screenshots">
+    <div class="screenshots-inner">
+      <div class="section-label">The app</div>
+      <h2 class="section-title">See it in action.</h2>
+      <div class="screenshots-grid">
+        <div>
+          <div class="screenshot-frame">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.19.25.png" alt="Entries view" />
+          </div>
+          <div class="screenshot-label">Entries</div>
+        </div>
+        <div>
+          <div class="screenshot-frame">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.19.36.png" alt="Review view" />
+          </div>
+          <div class="screenshot-label">Review</div>
+        </div>
+        <div>
+          <div class="screenshot-frame">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.19.45.png" alt="Categories view" />
+          </div>
+          <div class="screenshot-label">Categories</div>
+        </div>
+        <div>
+          <div class="screenshot-frame">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.21.07.png" alt="Budgets view" />
+          </div>
+          <div class="screenshot-label">Budgets</div>
+        </div>
       </div>
     </div>
   </section>
