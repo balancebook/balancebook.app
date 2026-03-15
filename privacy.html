@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Privacy Policy — balancebook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --border: #e8e8e4;
+      --text: #1a1a1a;
+      --text-secondary: #6b6b6b;
+      --accent: #2c5f2e;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(249,249,247,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 960px; margin: 0 auto;
+      height: 60px; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 17px; font-weight: 600; color: var(--text); text-decoration: none; }
+    .nav-back { font-size: 14px; color: var(--text-secondary); text-decoration: none; }
+    .nav-back:hover { color: var(--text); }
+
+    .content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+    .content h1 {
+      font-size: 32px; font-weight: 700;
+      letter-spacing: -1px; margin-bottom: 8px;
+    }
+    .updated {
+      font-size: 13px; color: var(--text-secondary);
+      margin-bottom: 48px;
+    }
+    .content h2 {
+      font-size: 18px; font-weight: 600;
+      letter-spacing: -0.3px;
+      margin-top: 40px; margin-bottom: 12px;
+    }
+    .content p {
+      font-size: 15px; color: var(--text-secondary);
+      margin-bottom: 16px;
+    }
+    .content ul {
+      padding-left: 20px; margin-bottom: 16px;
+    }
+    .content ul li {
+      font-size: 15px; color: var(--text-secondary);
+      margin-bottom: 6px;
+    }
+    .content a { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+    }
+    .footer-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-copy { font-size: 13px; color: var(--text-secondary); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">balancebook</a>
+      <a href="/" class="nav-back">← Back</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>Privacy Policy</h1>
+    <p class="updated">Last updated: March 15, 2026</p>
+
+    <p>balancebook is built with your privacy as a priority. This policy explains what data we collect, how it's used, and how it's stored.</p>
+
+    <h2>Data We Collect</h2>
+    <p>balancebook does not collect any personal data. All financial data you enter — entries, categories, budgets, ledgers — is stored locally on your device and, if you enable iCloud sync, in your personal iCloud account.</p>
+
+    <h2>iCloud Sync</h2>
+    <p>If you use the Pro plan, your data is synced via Apple's CloudKit to your private iCloud account. This data is only accessible to you and is governed by <a href="https://www.apple.com/legal/privacy/" target="_blank">Apple's Privacy Policy</a>. We have no access to your iCloud data.</p>
+
+    <h2>Analytics & Tracking</h2>
+    <p>balancebook does not use any third-party analytics, advertising SDKs, or tracking tools. We do not track your behavior inside the app.</p>
+
+    <h2>In-App Purchases</h2>
+    <p>Subscription purchases are processed by Apple via the App Store. We do not collect or store your payment information. See <a href="https://www.apple.com/legal/privacy/" target="_blank">Apple's Privacy Policy</a> for details on how purchase data is handled.</p>
+
+    <h2>Data Export & Import</h2>
+    <p>You can export your data at any time as a JSON or CSV file. This file is generated locally on your device and shared only when you explicitly choose to share it. We have no access to exported files.</p>
+
+    <h2>Children's Privacy</h2>
+    <p>balancebook is not directed at children under 13 and we do not knowingly collect data from children.</p>
+
+    <h2>Changes to This Policy</h2>
+    <p>We may update this policy from time to time. Changes will be posted on this page with an updated date.</p>
+
+    <h2>Contact</h2>
+    <p>If you have any questions about this privacy policy, please <a href="support.html">contact us</a>.</p>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 balancebook. All rights reserved.</span>
+      <ul class="footer-links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="support.html">Support</a></li>
+      </ul>
+    </div>
+  </footer>
+
+</body>
+</html>
