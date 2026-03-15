@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Support — balancebook</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f9f9f7;
+      --surface: #ffffff;
+      --border: #e8e8e4;
+      --text: #1a1a1a;
+      --text-secondary: #6b6b6b;
+      --accent: #2c5f2e;
+      --accent-light: #edf4ed;
+      --radius: 16px;
+    }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    nav {
+      position: sticky; top: 0; z-index: 100;
+      background: rgba(249,249,247,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 24px;
+    }
+    .nav-inner {
+      max-width: 960px; margin: 0 auto;
+      height: 60px; display: flex;
+      align-items: center; justify-content: space-between;
+    }
+    .nav-logo { font-size: 17px; font-weight: 600; color: var(--text); text-decoration: none; }
+    .nav-back { font-size: 14px; color: var(--text-secondary); text-decoration: none; }
+    .nav-back:hover { color: var(--text); }
+
+    .content {
+      max-width: 680px;
+      margin: 0 auto;
+      padding: 64px 24px 80px;
+    }
+    .content h1 {
+      font-size: 32px; font-weight: 700;
+      letter-spacing: -1px; margin-bottom: 12px;
+    }
+    .content > p {
+      font-size: 16px; color: var(--text-secondary);
+      margin-bottom: 48px;
+    }
+
+    /* FAQ */
+    .faq { margin-bottom: 56px; }
+    .faq h2 {
+      font-size: 20px; font-weight: 600;
+      letter-spacing: -0.3px; margin-bottom: 16px;
+    }
+    .faq-item {
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      background: var(--surface);
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+    .faq-question {
+      width: 100%;
+      background: none;
+      border: none;
+      padding: 18px 20px;
+      text-align: left;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--text);
+      cursor: pointer;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+    }
+    .faq-question:hover { background: var(--bg); }
+    .faq-chevron {
+      flex-shrink: 0;
+      transition: transform 0.2s;
+      color: var(--text-secondary);
+    }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer {
+      display: none;
+      padding: 0 20px 18px;
+      font-size: 14px;
+      color: var(--text-secondary);
+      line-height: 1.65;
+    }
+    .faq-item.open .faq-answer { display: block; }
+
+    /* CONTACT FORM */
+    .contact h2 {
+      font-size: 20px; font-weight: 600;
+      letter-spacing: -0.3px; margin-bottom: 8px;
+    }
+    .contact > p {
+      font-size: 14px; color: var(--text-secondary);
+      margin-bottom: 24px;
+    }
+    .form-group { margin-bottom: 16px; }
+    label {
+      display: block;
+      font-size: 13px; font-weight: 500;
+      margin-bottom: 6px; color: var(--text);
+    }
+    input, select, textarea {
+      width: 100%;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      color: var(--text);
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 12px 14px;
+      outline: none;
+      transition: border-color 0.2s;
+      -webkit-appearance: none;
+    }
+    input:focus, select:focus, textarea:focus {
+      border-color: var(--accent);
+    }
+    textarea { resize: vertical; min-height: 120px; }
+    .btn-submit {
+      display: inline-block;
+      background: var(--text);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 13px 28px;
+      font-family: 'Inter', sans-serif;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: opacity 0.2s, transform 0.2s;
+      margin-top: 8px;
+    }
+    .btn-submit:hover { opacity: 0.85; transform: translateY(-1px); }
+    .form-note {
+      font-size: 12px; color: var(--text-secondary);
+      margin-top: 12px;
+    }
+
+    footer {
+      border-top: 1px solid var(--border);
+      padding: 32px 24px;
+    }
+    .footer-inner {
+      max-width: 960px; margin: 0 auto;
+      display: flex; justify-content: space-between;
+      align-items: center; flex-wrap: wrap; gap: 16px;
+    }
+    .footer-copy { font-size: 13px; color: var(--text-secondary); }
+    .footer-links { display: flex; gap: 24px; list-style: none; }
+    .footer-links a { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
+    .footer-links a:hover { color: var(--text); }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <div class="nav-inner">
+      <a href="/" class="nav-logo">balancebook</a>
+      <a href="/" class="nav-back">← Back</a>
+    </div>
+  </nav>
+
+  <div class="content">
+    <h1>Support</h1>
+    <p>Have a question or running into an issue? We're here to help.</p>
+
+    <div class="faq">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I back up my data?
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">Pro subscribers can export a full backup via Settings → Export Data → Entire Ledger. This creates a JSON file you can store anywhere. iCloud sync also keeps your data backed up automatically across your devices.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I restore a backup?
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">Go to Settings → Import Data and select your backup file. A new ledger will be created automatically with all your imported data. You can then rename it and set it as your default ledger.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Can I cancel my Pro subscription?
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">Yes. Go to your iPhone Settings → Apple ID → Subscriptions → balancebook and tap Cancel Subscription. Your Pro access continues until the end of the current billing period.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          I upgraded to Pro but features are still locked.
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">Go to Settings → Plans and tap "Restore Purchases". If the issue persists, try force-quitting the app and reopening it. Contact us if it still isn't resolved.</div>
+      </div>
+
+      <div class="faq-item">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Is my data private?
+          <svg class="faq-chevron" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+        </button>
+        <div class="faq-answer">Yes. All data is stored locally on your device or in your private iCloud account. We have no access to your financial data. See our <a href="privacy.html" style="color:var(--accent);">Privacy Policy</a> for full details.</div>
+      </div>
+    </div>
+
+    <div class="contact">
+      <h2>Contact Us</h2>
+      <p>Can't find what you're looking for? Send us a message and we'll get back to you.</p>
+
+      <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
+      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+        <div class="form-group">
+          <label for="name">Name</label>
+          <input type="text" id="name" name="name" placeholder="Your name" required />
+        </div>
+        <div class="form-group">
+          <label for="email">Email</label>
+          <input type="email" id="email" name="email" placeholder="you@example.com" required />
+        </div>
+        <div class="form-group">
+          <label for="topic">Topic</label>
+          <select id="topic" name="topic">
+            <option value="bug">Bug report</option>
+            <option value="feature">Feature request</option>
+            <option value="billing">Billing / subscription</option>
+            <option value="data">Data & privacy</option>
+            <option value="other">Other</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea id="message" name="message" placeholder="Describe your issue or question..." required></textarea>
+        </div>
+        <button type="submit" class="btn-submit">Send Message</button>
+        <p class="form-note">We typically respond within 1–2 business days.</p>
+      </form>
+    </div>
+  </div>
+
+  <footer>
+    <div class="footer-inner">
+      <span class="footer-copy">© 2026 balancebook. All rights reserved.</span>
+      <ul class="footer-links">
+        <li><a href="privacy.html">Privacy Policy</a></li>
+        <li><a href="support.html">Support</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      item.classList.toggle('open');
+    }
+  </script>
+
+</body>
+</html>
