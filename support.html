@@ -229,8 +229,10 @@
       <h2>Contact Us</h2>
       <p>Can't find what you're looking for? Send us a message and we'll get back to you.</p>
 
-      <!-- Replace YOUR_FORM_ID with your Formspree form ID -->
-      <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST">
+      <form action="https://api.web3forms.com/submit" method="POST">
+        <input type="hidden" name="access_key" value="c16b9b72-831e-4088-801c-f1b1017e6779">
+        <input type="hidden" name="subject" value="balancebook Support Request">
+        <input type="checkbox" name="botcheck" style="display:none;">
         <div class="form-group">
           <label for="name">Name</label>
           <input type="text" id="name" name="name" placeholder="Your name" required />
