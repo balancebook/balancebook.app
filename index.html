@@ -57,6 +57,15 @@
       color: var(--text);
       text-decoration: none;
       letter-spacing: -0.3px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .nav-logo img {
+      width: 28px;
+      height: 28px;
+      border-radius: 7px;
+      flex-shrink: 0;
     }
     .nav-links {
       display: flex;
@@ -396,7 +405,10 @@
 
   <nav>
     <div class="nav-inner">
-      <a href="/" class="nav-logo">balancebook</a>
+      <a href="/" class="nav-logo">
+        <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="balancebook icon" />
+        balancebook
+      </a>
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
         <li><a href="#pricing">Pricing</a></li>
@@ -407,7 +419,10 @@
 
   <section class="hero">
     <div class="hero-content">
-      <span class="hero-eyebrow">Now available on iOS</span>
+      <div style="display:flex; align-items:center; gap:14px; margin-bottom:24px;">
+        <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="balancebook app icon" style="width:64px; height:64px; border-radius:16px; box-shadow:0 4px 16px rgba(0,0,0,0.1);" />
+        <span class="hero-eyebrow" style="margin-bottom:0;">Now available on iOS</span>
+      </div>
       <h1>Your money,<br /><span>finally clear.</span></h1>
       <p>balancebook is a simple, beautiful finance tracker that helps you understand where your money goes — without the spreadsheet.</p>
       <div class="hero-actions">
@@ -496,9 +511,9 @@
         <p>Create budgets by category and track your progress in real time throughout the month.</p>
       </div>
       <div class="feature-card">
-        <div class="feature-icon">☁️</div>
-        <h3>iCloud Sync</h3>
-        <p>Your data syncs automatically across all your Apple devices via iCloud.</p>
+        <div class="feature-icon">👥</div>
+        <h3>Shared Ledgers</h3>
+        <p>Invite a partner or family member to view or edit a ledger together in real time.</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📤</div>
@@ -557,6 +572,8 @@
             <li>1 budget</li>
             <li>Recurring entries</li>
             <li>Charts & review</li>
+            <li>Cloud backup</li>
+            <li>Access across all your devices</li>
           </ul>
         </div>
         <div class="plan-card featured">
@@ -568,9 +585,13 @@
             <li>Unlimited ledgers</li>
             <li>Unlimited categories</li>
             <li>Unlimited budgets</li>
+            <li>Shared ledgers (invite others to view or edit)</li>
             <li>Category trends</li>
-            <li>iCloud backup & sync</li>
-            <li>Export & import data</li>
+            <li>Tag category breakdown</li>
+            <li>Budget history</li>
+            <li>Export ledger (JSON backup)</li>
+            <li>Export entries (CSV or JSON)</li>
+            <li>Import data</li>
           </ul>
         </div>
       </div>
@@ -578,6 +599,7 @@
   </section>
 
   <section class="cta">
+    <img src="assets/AppIcon-iOS-Dark-512x512@1x.png" alt="" style="width:72px; height:72px; border-radius:18px; box-shadow:0 8px 24px rgba(0,0,0,0.12); margin-bottom:24px;" />
     <h2>Take control of your finances.</h2>
     <p>Free to download. No account required.</p>
     <a href="#" class="btn-appstore" style="display:inline-flex;">
