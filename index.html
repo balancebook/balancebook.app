@@ -361,7 +361,7 @@
     .screenshots .section-title { color: #fff; }
     .screenshots-grid {
       display: grid;
-      grid-template-columns: repeat(4, 1fr);
+      grid-template-columns: repeat(5, 1fr);
       gap: 16px;
     }
     .screenshot-frame {
@@ -382,7 +382,10 @@
       margin-top: 12px;
       font-family: 'Inter', sans-serif;
     }
-    @media (max-width: 720px) {
+    @media (max-width: 860px) {
+      .screenshots-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    @media (max-width: 560px) {
       .screenshots-grid { grid-template-columns: repeat(2, 1fr); }
     }
 
@@ -530,25 +533,31 @@
       <div class="screenshots-grid">
         <div>
           <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.19.25.png" alt="Entries view" />
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-23 at 22.21.46.png" alt="Entries view" />
           </div>
           <div class="screenshot-label">Entries</div>
         </div>
         <div>
           <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.19.36.png" alt="Review view" />
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-23 at 22.21.53.png" alt="Review view" />
           </div>
           <div class="screenshot-label">Review</div>
         </div>
         <div>
           <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.19.45.png" alt="Categories view" />
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-23 at 23.11.12.png" alt="Sankey cashflow" />
+          </div>
+          <div class="screenshot-label">Sankey</div>
+        </div>
+        <div>
+          <div class="screenshot-frame">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-23 at 22.22.04.png" alt="Categories view" />
           </div>
           <div class="screenshot-label">Categories</div>
         </div>
         <div>
           <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-15 at 12.21.07.png" alt="Budgets view" />
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-23 at 22.22.22.png" alt="Budgets view" />
           </div>
           <div class="screenshot-label">Budgets</div>
         </div>
