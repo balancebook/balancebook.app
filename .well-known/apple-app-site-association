@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "3CV2ZRRB9C.com.ofdeeporigin.kakeibo.prod",
+        "paths": ["/oauth-redirect"]
+      }
+    ]
+  }
+}
