@@ -3,642 +3,1445 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>balancebook — Personal Finance Tracker</title>
-  <meta name="description" content="A simple, beautiful way to track your income and expenses. Built for iOS." />
+  <title>balancebook — A calm personal finance tracker for iPhone</title>
+  <meta name="description" content="balancebook is a private, focused personal finance tracker for iPhone. Log entries, review the month, and stay on top of budgets without spreadsheets." />
+  <meta name="theme-color" content="#f8f8f5" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f9f9f7;
-      --surface: #ffffff;
-      --border: #e8e8e4;
-      --text: #1a1a1a;
-      --text-secondary: #6b6b6b;
-      --accent: #2c5f2e;
-      --accent-light: #edf4ed;
-      --radius: 16px;
+      --ink: #0f1720;
+      --body: #4d5966;
+      --muted: #6d7783;
+      --line: rgba(15, 23, 32, 0.1);
+      --line-soft: rgba(15, 23, 32, 0.06);
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-strong: #ffffff;
+      --bg: #f8f8f5;
+      --bg-soft: #f3f4ef;
+      --accent: #236846;
+      --accent-soft: rgba(35, 104, 70, 0.08);
+      --shadow-sm: 0 6px 18px rgba(15, 23, 32, 0.05);
+      --shadow-md: 0 18px 44px rgba(15, 23, 32, 0.08);
+      --max: 1120px;
+      --radius: 12px;
+      --radius-lg: 18px;
+      --radius-xl: 24px;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      :root {
+        --ink: #edf2f7;
+        --body: #b5c0cb;
+        --muted: #8f9baa;
+        --line: rgba(255, 255, 255, 0.1);
+        --line-soft: rgba(255, 255, 255, 0.06);
+        --surface: rgba(17, 24, 31, 0.82);
+        --surface-strong: #141b22;
+        --bg: #0d1217;
+        --bg-soft: #111820;
+        --accent: #6abb8e;
+        --accent-soft: rgba(106, 187, 142, 0.12);
+        --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.24);
+        --shadow-md: 0 20px 52px rgba(0, 0, 0, 0.34);
+      }
     }
 
     html { scroll-behavior: smooth; }
+    html { color-scheme: light dark; }
 
     body {
-      font-family: 'Inter', -apple-system, sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      color: var(--ink);
       line-height: 1.6;
       -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+      font-feature-settings: "ss01", "cv11";
+      background:
+        radial-gradient(circle at 12% 0%, rgba(201, 92, 78, 0.26), transparent 34%),
+        radial-gradient(circle at 88% 0%, rgba(41, 113, 77, 0.24), transparent 34%),
+        linear-gradient(90deg, rgba(201, 92, 78, 0.09) 0%, rgba(248, 248, 245, 0) 42%, rgba(41, 113, 77, 0.09) 100%),
+        linear-gradient(180deg, #f6f4f1 0%, #f8f8f5 24%, #fbfbf9 100%);
     }
 
-    /* NAV */
+    @media (prefers-color-scheme: dark) {
+      body {
+        background:
+          radial-gradient(circle at 12% 0%, rgba(201, 92, 78, 0.18), transparent 32%),
+          radial-gradient(circle at 88% 0%, rgba(41, 113, 77, 0.18), transparent 32%),
+          linear-gradient(90deg, rgba(201, 92, 78, 0.07) 0%, rgba(13, 18, 23, 0) 42%, rgba(41, 113, 77, 0.07) 100%),
+          linear-gradient(180deg, #0d1217 0%, #10161c 24%, #121920 100%);
+      }
+    }
+
+    a { color: inherit; text-decoration: none; }
+    img { max-width: 100%; display: block; }
+
+    .shell {
+      width: min(calc(100% - 40px), var(--max));
+      margin: 0 auto;
+    }
+
     nav {
       position: sticky;
       top: 0;
       z-index: 100;
-      background: rgba(249, 249, 247, 0.85);
-      backdrop-filter: blur(12px);
-      -webkit-backdrop-filter: blur(12px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 24px;
+      padding: 14px 0;
+      background: linear-gradient(180deg, rgba(246, 244, 241, 0.82), rgba(248, 248, 245, 0.46));
+      backdrop-filter: blur(18px) saturate(160%);
+      -webkit-backdrop-filter: blur(18px) saturate(160%);
+      border-bottom: 1px solid rgba(15, 23, 32, 0.05);
     }
+
     .nav-inner {
-      max-width: 960px;
+      width: min(calc(100% - 40px), var(--max));
       margin: 0 auto;
-      height: 60px;
       display: flex;
       align-items: center;
       justify-content: space-between;
+      gap: 24px;
+      padding: 12px 18px;
+      border-radius: 18px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.2));
+      border: 1px solid rgba(255, 255, 255, 0.42);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.42),
+        0 12px 28px rgba(15, 23, 32, 0.08);
     }
-    .nav-logo {
-      font-size: 17px;
-      font-weight: 600;
-      color: var(--text);
-      text-decoration: none;
-      letter-spacing: -0.3px;
-      display: flex;
+
+    .brand {
+      display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 10px;
+      font-weight: 600;
+      font-size: 16px;
+      letter-spacing: -0.01em;
+      color: var(--ink);
     }
-    .nav-logo img {
+
+    .brand img {
       width: 28px;
       height: 28px;
       border-radius: 7px;
-      flex-shrink: 0;
+      box-shadow: 0 8px 20px rgba(15, 23, 32, 0.1);
     }
+
     .nav-links {
       display: flex;
-      gap: 28px;
+      align-items: center;
+      gap: 26px;
       list-style: none;
     }
+
     .nav-links a {
       font-size: 14px;
-      color: var(--text-secondary);
-      text-decoration: none;
-      transition: color 0.2s;
+      font-weight: 500;
+      color: var(--body);
+      transition: color 0.15s ease;
     }
-    .nav-links a:hover { color: var(--text); }
 
-    /* HERO */
-    .hero {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 100px 24px 80px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 64px;
+    .nav-links a:hover,
+    .nav-links a:focus-visible { color: var(--ink); }
+
+    .nav-cta {
+      display: inline-flex;
       align-items: center;
+      gap: 8px;
+      padding: 10px 15px;
+      background: var(--ink);
+      color: #fff;
+      border-radius: 999px;
+      font-size: 13px;
+      font-weight: 600;
+      box-shadow: 0 12px 24px rgba(15, 23, 32, 0.14);
+      transition: background 0.15s ease, transform 0.15s ease;
     }
-    .hero-eyebrow {
-      display: inline-block;
+
+    .nav-cta:hover {
+      background: #1b2430;
+      transform: translateY(-1px);
+    }
+
+    .hero {
+      padding: 92px 0 72px;
+    }
+
+    .hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.05fr) minmax(0, 0.95fr);
+      gap: 64px;
+      align-items: start;
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 6px 12px;
+      background: rgba(255, 255, 255, 0.68);
+      color: var(--accent);
+      border: 1px solid rgba(35, 104, 70, 0.12);
+      border-radius: 999px;
       font-size: 12px;
       font-weight: 600;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      color: var(--accent);
-      background: var(--accent-light);
-      padding: 4px 12px;
-      border-radius: 100px;
+      letter-spacing: 0.02em;
       margin-bottom: 20px;
+      box-shadow: var(--shadow-sm);
     }
+
+    .eyebrow::before {
+      content: "";
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
     .hero h1 {
-      font-size: clamp(36px, 5vw, 52px);
-      font-weight: 700;
-      letter-spacing: -1.5px;
-      line-height: 1.1;
+      font-size: clamp(40px, 5.5vw, 60px);
+      line-height: 1.04;
+      letter-spacing: -0.028em;
+      font-weight: 500;
+      color: var(--ink);
       margin-bottom: 20px;
-      color: var(--text);
+      max-width: 12ch;
     }
-    .hero h1 span { color: var(--accent); }
+
     .hero p {
       font-size: 18px;
-      color: var(--text-secondary);
-      line-height: 1.65;
-      margin-bottom: 36px;
-      font-weight: 400;
+      line-height: 1.58;
+      color: var(--body);
+      max-width: 37ch;
+      margin-bottom: 30px;
     }
-    .hero-actions { display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 18px;
+    }
+
     .btn-appstore {
       display: inline-flex;
       align-items: center;
       gap: 10px;
-      background: var(--text);
+      padding: 12px 20px;
+      background: var(--ink);
       color: #fff;
-      text-decoration: none;
-      padding: 12px 22px;
-      border-radius: 12px;
-      font-size: 14px;
+      border-radius: 10px;
       font-weight: 500;
-      transition: opacity 0.2s, transform 0.2s;
+      box-shadow: 0 14px 30px rgba(15, 23, 32, 0.14);
+      transition: background 0.15s ease, transform 0.15s ease;
     }
-    .btn-appstore:hover { opacity: 0.85; transform: translateY(-1px); }
-    .btn-appstore svg { flex-shrink: 0; }
-    .btn-appstore-text { display: flex; flex-direction: column; line-height: 1.2; }
-    .btn-appstore-text small { font-size: 10px; font-weight: 400; opacity: 0.75; }
-    .btn-appstore-text span { font-size: 15px; font-weight: 600; }
+
+    .btn-appstore:hover {
+      background: #1b2430;
+      transform: translateY(-1px);
+    }
+
+    .btn-appstore-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.15;
+      text-align: left;
+    }
+
+    .btn-appstore-text small { font-size: 10px; font-weight: 400; opacity: 0.8; }
+    .btn-appstore-text span { font-size: 14px; font-weight: 600; }
 
     .hero-visual {
+      position: relative;
       display: flex;
       justify-content: center;
       align-items: center;
+      min-height: 520px;
     }
-    .phone-mockup {
-      width: 260px;
-      background: #1a1a1a;
-      border-radius: 40px;
-      padding: 12px;
-      box-shadow: 0 40px 80px rgba(0,0,0,0.15), 0 0 0 1px rgba(0,0,0,0.08);
+
+    .hero-stack {
+      position: relative;
+      width: 100%;
+      min-height: 520px;
     }
-    .phone-screen {
-      background: #111;
-      border-radius: 30px;
-      overflow: hidden;
-      aspect-ratio: 9/19;
+
+    .hero-card {
+      position: absolute;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid rgba(15, 23, 32, 0.08);
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      box-shadow: 0 18px 40px rgba(15, 23, 32, 0.09);
+    }
+
+    .shot {
+      position: absolute;
+      background: #0a0a0a;
+      border-radius: 32px;
+      padding: 8px;
+      box-shadow: 0 26px 48px rgba(15, 23, 32, 0.18);
+    }
+
+    .shot img {
+      width: 100%;
+      border-radius: 24px;
+    }
+
+    .shot-main {
+      width: 270px;
+      left: 58px;
+      top: 50%;
+      z-index: 1;
+      transform: translateY(-48%);
+    }
+
+    .shot-side {
+      width: 235px;
+      right: 40px;
+      top: 50%;
+      z-index: 2;
+      transform: translateY(-32%);
+    }
+
+    .trust {
+      padding: 64px 0 28px;
+    }
+
+    .trust-shell {
+      border: 1px solid var(--line);
+      background: rgba(255, 255, 255, 0.78);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-sm);
+      padding: 24px 28px;
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .trust-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 24px;
+    }
+
+    .trust-item {
       display: flex;
-      flex-direction: column;
-      padding: 24px 16px 16px;
+      align-items: flex-start;
       gap: 12px;
     }
-    .mock-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-    }
-    .mock-label { font-size: 10px; color: rgba(255,255,255,0.4); font-family: 'Inter', sans-serif; }
-    .mock-amount { font-size: 26px; font-weight: 700; color: #fff; font-family: 'Inter', sans-serif; letter-spacing: -1px; margin-top: 2px; }
-    .mock-chart {
-      flex: 1;
-      display: flex;
-      align-items: flex-end;
-      gap: 4px;
-      padding: 8px 0;
-    }
-    .mock-bar {
-      flex: 1;
-      border-radius: 4px 4px 0 0;
-      opacity: 0.9;
-    }
-    .mock-entries { display: flex; flex-direction: column; gap: 6px; }
-    .mock-entry {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background: rgba(255,255,255,0.06);
-      border-radius: 10px;
-      padding: 8px 10px;
-    }
-    .mock-entry-left { display: flex; align-items: center; gap: 8px; }
-    .mock-dot { width: 8px; height: 8px; border-radius: 50%; }
-    .mock-entry-name { font-size: 10px; color: rgba(255,255,255,0.75); font-family: 'Inter', sans-serif; }
-    .mock-entry-amt { font-size: 10px; font-family: 'Inter', sans-serif; font-weight: 500; }
 
-    /* FEATURES */
-    .features {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 80px 24px;
+    .trust-icon {
+      flex-shrink: 0;
+      width: 32px;
+      height: 32px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 10px;
     }
-    .section-label {
-      text-align: center;
-      font-size: 12px;
+
+    .trust-text strong {
+      display: block;
+      font-size: 14px;
       font-weight: 600;
-      letter-spacing: 0.08em;
+      color: var(--ink);
+      margin-bottom: 2px;
+    }
+
+    .trust-text span {
+      font-size: 13px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    section { padding: 88px 0; }
+
+    .section-head {
+      margin-bottom: 56px;
+      max-width: 720px;
+    }
+
+    .pricing-head {
+      max-width: none;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) 340px;
+      gap: 32px;
+      align-items: start;
+    }
+
+    .pricing-summary {
+      display: grid;
+      gap: 14px;
+    }
+
+    .pricing-summary-card {
+      padding: 20px 22px;
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .pricing-summary-label {
+      display: block;
+      font-size: 12px;
+      letter-spacing: 0.06em;
       text-transform: uppercase;
-      color: var(--text-secondary);
+      color: var(--muted);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .pricing-summary-price {
+      display: block;
+      font-size: 32px;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+
+    .pricing-summary-note {
+      display: block;
+      font-size: 14px;
+      color: var(--muted);
+      line-height: 1.45;
+    }
+
+    .section-eyebrow {
+      font-size: 13px;
+      font-weight: 600;
+      color: var(--accent);
+      letter-spacing: 0.02em;
       margin-bottom: 12px;
     }
+
     .section-title {
-      text-align: center;
-      font-size: clamp(26px, 4vw, 36px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 56px;
+      font-size: clamp(28px, 3.5vw, 40px);
+      line-height: 1.1;
+      letter-spacing: -0.022em;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 16px;
+      max-width: 24ch;
     }
+
+    .section-lede {
+      font-size: 17px;
+      color: var(--body);
+      max-width: 50ch;
+      line-height: 1.55;
+    }
+
     .features-grid {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
-      gap: 16px;
+      gap: 24px;
     }
-    .feature-card {
-      background: var(--surface);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
+
+    .feature {
       padding: 28px 24px;
-      transition: box-shadow 0.2s, transform 0.2s;
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      transition: border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
     }
-    .feature-card:hover {
-      box-shadow: 0 8px 24px rgba(0,0,0,0.07);
+
+    .feature:hover {
+      border-color: rgba(15, 23, 32, 0.14);
+      box-shadow: 0 10px 26px rgba(15, 23, 32, 0.08);
       transform: translateY(-2px);
     }
-    .feature-icon {
-      width: 40px;
-      height: 40px;
-      background: var(--accent-light);
-      border-radius: 10px;
+
+    .feature-head {
       display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 14px;
+    }
+
+    .feature-icon {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      background: var(--accent-soft);
+      color: var(--accent);
+      display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-bottom: 16px;
-      font-size: 20px;
-    }
-    .feature-card h3 {
-      font-size: 15px;
-      font-weight: 600;
-      margin-bottom: 8px;
-      letter-spacing: -0.2px;
-    }
-    .feature-card p {
-      font-size: 14px;
-      color: var(--text-secondary);
-      line-height: 1.6;
+      flex: 0 0 auto;
     }
 
-    /* PLANS */
-    .plans {
-      background: var(--surface);
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 80px 24px;
-    }
-    .plans-inner { max-width: 960px; margin: 0 auto; }
-    .plans-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      max-width: 640px;
-      margin: 0 auto;
-    }
-    .plan-card {
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px 24px;
-    }
-    .plan-card.featured {
-      border-color: var(--accent);
-      background: var(--accent-light);
-    }
-    .plan-name {
-      font-size: 13px;
+    .feature h3 {
+      font-size: 16px;
       font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      color: var(--text-secondary);
-      margin-bottom: 8px;
+      color: var(--ink);
+      letter-spacing: -0.01em;
     }
-    .plan-card.featured .plan-name { color: var(--accent); }
-    .plan-price {
-      font-size: 32px;
-      font-weight: 700;
-      letter-spacing: -1px;
+
+    .feature p {
+      font-size: 14.5px;
+      color: var(--body);
+      line-height: 1.55;
+    }
+
+    .pro-tag {
+      display: inline-block;
+      margin-left: 6px;
+      padding: 1px 7px;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      color: var(--accent);
+      background: var(--accent-soft);
+      border-radius: 4px;
+      vertical-align: 2px;
+    }
+
+    .screenshots {
+      background: linear-gradient(180deg, rgba(243, 244, 239, 0.82), rgba(248, 248, 245, 0.7));
+      border-top: 1px solid var(--line-soft);
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .screens-grid {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 20px;
+    }
+
+    .screen {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .screen-frame {
+      border: none;
+      background: #0a0a0a;
+      border-radius: 22px;
+      padding: 6px;
+      box-shadow: 0 12px 28px -10px rgba(14, 17, 22, 0.18);
+      cursor: zoom-in;
+      transition: transform 0.15s ease, box-shadow 0.15s ease;
+    }
+
+    .screen-frame img {
+      width: 100%;
+      border-radius: 17px;
+    }
+
+    .screen-frame:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 18px 34px -12px rgba(14, 17, 22, 0.24);
+    }
+
+    .screen-label {
+      text-align: center;
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--muted);
+      letter-spacing: 0.02em;
+    }
+
+    .pricing-compare {
+      background: rgba(255, 255, 255, 0.84);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      overflow: hidden;
+    }
+
+    .pricing-compare-head {
+      padding: 20px 24px 14px;
+      border-bottom: 1px solid var(--line-soft);
+    }
+
+    .pricing-compare-head h3 {
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: -0.015em;
+      color: var(--ink);
       margin-bottom: 4px;
     }
-    .plan-period { font-size: 13px; color: var(--text-secondary); margin-bottom: 20px; }
-    .plan-features { list-style: none; display: flex; flex-direction: column; gap: 8px; }
-    .plan-features li {
+
+    .pricing-compare-head p {
       font-size: 14px;
-      color: var(--text-secondary);
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    .plan-features li::before {
-      content: '✓';
-      font-size: 12px;
-      font-weight: 700;
-      color: var(--accent);
-      flex-shrink: 0;
+      color: var(--muted);
     }
 
-    /* CTA */
-    .cta {
-      max-width: 960px;
-      margin: 0 auto;
-      padding: 100px 24px;
-      text-align: center;
+    .compare-table {
+      width: 100%;
+      border-collapse: collapse;
     }
+
+    .compare-table th,
+    .compare-table td {
+      padding: 14px 24px;
+      border-bottom: 1px solid var(--line-soft);
+      text-align: left;
+      vertical-align: middle;
+      font-size: 14px;
+    }
+
+    .compare-table thead th {
+      font-size: 12px;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-weight: 600;
+      background: rgba(255, 255, 255, 0.56);
+    }
+
+    .compare-table tbody tr:last-child td {
+      border-bottom: none;
+    }
+
+    .compare-table td:first-child {
+      color: var(--ink);
+      font-weight: 500;
+      width: 52%;
+    }
+
+    .compare-value {
+      color: var(--body);
+      font-weight: 500;
+    }
+
+    .compare-value.yes {
+      color: var(--accent);
+      font-weight: 600;
+    }
+
+    .cta {
+      text-align: center;
+      padding: 96px 0;
+    }
+
+    .lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 300;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 28px;
+      background: rgba(15, 23, 32, 0.76);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+    }
+
+    .lightbox.is-open {
+      display: flex;
+    }
+
+    .lightbox-backdrop {
+      position: absolute;
+      inset: 0;
+      border: none;
+      background: transparent;
+      cursor: zoom-out;
+    }
+
+    .lightbox-dialog {
+      position: relative;
+      z-index: 1;
+      width: min(100%, 980px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .lightbox-close {
+      position: absolute;
+      top: -4px;
+      right: -4px;
+      width: 38px;
+      height: 38px;
+      border: none;
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ink);
+      font-size: 22px;
+      line-height: 1;
+      cursor: pointer;
+      box-shadow: 0 10px 28px rgba(15, 23, 32, 0.18);
+    }
+
+    .lightbox-close:hover {
+      background: #ffffff;
+    }
+
+    .lightbox-image-wrap {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .lightbox-image {
+      width: auto;
+      max-width: 100%;
+      max-height: min(82vh, 980px);
+      border-radius: 22px;
+      box-shadow: 0 18px 42px rgba(15, 23, 32, 0.16);
+      cursor: zoom-in;
+      transition: transform 0.18s ease;
+      transform-origin: center center;
+    }
+
+    .lightbox-image.is-zoomed {
+      transform: scale(1.55);
+      cursor: zoom-out;
+    }
+
+    .lightbox-caption {
+      padding: 12px 4px 0;
+      text-align: center;
+      font-size: 14px;
+      color: rgba(255, 255, 255, 0.82);
+      font-weight: 500;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      nav {
+        background: linear-gradient(180deg, rgba(12, 18, 24, 0.84), rgba(12, 18, 24, 0.5));
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-inner {
+        background: linear-gradient(180deg, rgba(22, 30, 38, 0.66), rgba(22, 30, 38, 0.42));
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.06),
+          0 12px 28px rgba(0, 0, 0, 0.24);
+      }
+
+      .nav-cta,
+      .btn-appstore {
+        background: #0f1720;
+        color: #ffffff;
+      }
+
+      .nav-cta:hover,
+      .btn-appstore:hover {
+        background: #1b2430;
+      }
+
+      .eyebrow,
+      .trust-shell,
+      .feature,
+      .pricing-summary-card,
+      .pricing-compare,
+      .cta-panel {
+        background: rgba(17, 24, 31, 0.84);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .trust-icon,
+      .feature-icon {
+        background: rgba(106, 187, 142, 0.12);
+      }
+
+      .screenshots {
+        background: linear-gradient(180deg, rgba(17, 24, 31, 0.86), rgba(13, 18, 23, 0.7));
+      }
+
+      .pricing-compare-head {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .compare-table thead th,
+      .compare-price-row td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .compare-table th,
+      .compare-table td {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .compare-value {
+        color: var(--body);
+      }
+
+      .compare-value.yes {
+        color: #8ad0a7;
+      }
+
+      .cta-panel {
+        background: linear-gradient(180deg, rgba(22, 30, 38, 0.9), rgba(16, 22, 29, 0.88));
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .cta img {
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      }
+
+      .cta p {
+        color: var(--body);
+      }
+
+      footer {
+        background: rgba(10, 15, 20, 0.78);
+        border-top-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .footer-brand,
+      .footer-links a {
+        color: var(--muted);
+      }
+
+      .lightbox {
+        background: rgba(4, 8, 12, 0.84);
+      }
+
+      .lightbox-close {
+        background: rgba(255, 255, 255, 0.92);
+        color: #11161c;
+      }
+    }
+
+    .cta-panel {
+      padding: 40px 24px;
+      background: rgba(255, 255, 255, 0.78);
+      border: 1px solid var(--line);
+      border-radius: var(--radius-xl);
+      box-shadow: var(--shadow-md);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+    }
+
+    .cta img {
+      width: 64px;
+      height: 64px;
+      border-radius: 14px;
+      margin: 0 auto 22px;
+      box-shadow: 0 6px 16px -6px rgba(14, 17, 22, 0.14);
+    }
+
     .cta h2 {
       font-size: clamp(28px, 4vw, 40px);
-      font-weight: 700;
-      letter-spacing: -1px;
-      margin-bottom: 16px;
-    }
-    .cta p {
-      font-size: 18px;
-      color: var(--text-secondary);
-      margin-bottom: 36px;
+      line-height: 1.1;
+      letter-spacing: -0.025em;
+      font-weight: 600;
+      margin-bottom: 14px;
     }
 
-    /* FOOTER */
-    footer {
-      border-top: 1px solid var(--border);
-      padding: 32px 24px;
+    .cta p {
+      font-size: 17px;
+      color: var(--body);
+      margin-bottom: 30px;
     }
+
+    footer {
+      border-top: 1px solid var(--line);
+      padding: 28px 0 36px;
+      background: rgba(255, 255, 255, 0.56);
+    }
+
     .footer-inner {
-      max-width: 960px;
-      margin: 0 auto;
       display: flex;
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
       gap: 16px;
     }
-    .footer-copy { font-size: 13px; color: var(--text-secondary); }
-    .footer-links { display: flex; gap: 24px; list-style: none; }
-    .footer-links a { font-size: 13px; color: var(--text-secondary); text-decoration: none; }
-    .footer-links a:hover { color: var(--text); }
 
-    /* SCREENSHOTS */
-    .screenshots {
-      background: #111;
-      padding: 80px 24px;
-    }
-    .screenshots-inner {
-      max-width: 960px;
-      margin: 0 auto;
-    }
-    .screenshots .section-label { color: rgba(255,255,255,0.4); }
-    .screenshots .section-title { color: #fff; }
-    .screenshots-grid {
-      display: grid;
-      grid-template-columns: repeat(5, 1fr);
-      gap: 16px;
-    }
-    .screenshot-frame {
-      background: #1a1a1a;
-      border-radius: 28px;
-      padding: 8px;
-      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
-    }
-    .screenshot-frame img {
-      width: 100%;
-      border-radius: 22px;
-      display: block;
-    }
-    .screenshot-label {
-      text-align: center;
-      font-size: 12px;
-      color: rgba(255,255,255,0.3);
-      margin-top: 12px;
-      font-family: 'Inter', sans-serif;
-    }
-    @media (max-width: 860px) {
-      .screenshots-grid { grid-template-columns: repeat(3, 1fr); }
-    }
-    @media (max-width: 560px) {
-      .screenshots-grid { grid-template-columns: repeat(2, 1fr); }
+    .footer-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--muted);
     }
 
-    /* RESPONSIVE */
-    @media (max-width: 720px) {
-      .hero { grid-template-columns: 1fr; gap: 48px; padding: 64px 24px 48px; text-align: center; }
-      .hero-actions { justify-content: center; }
+    .footer-brand img {
+      width: 24px;
+      height: 24px;
+      border-radius: 6px;
+    }
+
+    .footer-links {
+      list-style: none;
+      display: flex;
+      gap: 22px;
+    }
+
+    .footer-links a {
+      font-size: 13px;
+      color: var(--muted);
+      transition: color 0.15s ease;
+    }
+
+    .footer-links a:hover { color: var(--ink); }
+
+    @media (prefers-color-scheme: dark) {
+      nav {
+        background: linear-gradient(180deg, rgba(12, 18, 24, 0.84), rgba(12, 18, 24, 0.5));
+        border-bottom-color: rgba(255, 255, 255, 0.05);
+      }
+
+      .nav-inner {
+        background: linear-gradient(180deg, rgba(22, 30, 38, 0.66), rgba(22, 30, 38, 0.42));
+        border-color: rgba(255, 255, 255, 0.08);
+        box-shadow:
+          inset 0 1px 0 rgba(255, 255, 255, 0.06),
+          0 12px 28px rgba(0, 0, 0, 0.24);
+      }
+
+      .eyebrow,
+      .trust-shell,
+      .feature,
+      .pricing-summary-card,
+      .pricing-compare,
+      .cta-panel {
+        background: rgba(17, 24, 31, 0.9);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .trust-icon,
+      .feature-icon {
+        background: rgba(106, 187, 142, 0.12);
+      }
+
+      .screenshots {
+        background: linear-gradient(180deg, rgba(17, 24, 31, 0.86), rgba(13, 18, 23, 0.7));
+      }
+
+      .pricing-compare-head {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .compare-table thead th,
+      .compare-price-row td {
+        background: rgba(255, 255, 255, 0.02);
+      }
+
+      .compare-table th,
+      .compare-table td {
+        border-bottom-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .compare-value {
+        color: var(--body);
+      }
+
+      .compare-value.yes {
+        color: #8ad0a7;
+      }
+
+      .cta-panel {
+        background: linear-gradient(180deg, rgba(22, 30, 38, 0.94), rgba(16, 22, 29, 0.92));
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .cta img {
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+      }
+
+      .cta p {
+        color: var(--body);
+      }
+
+      footer {
+        background: rgba(10, 15, 20, 0.78);
+        border-top-color: rgba(255, 255, 255, 0.06);
+      }
+
+      .footer-brand,
+      .footer-links a {
+        color: var(--muted);
+      }
+
+      .lightbox {
+        background: rgba(4, 8, 12, 0.84);
+      }
+
+      .lightbox-close {
+        background: rgba(255, 255, 255, 0.92);
+        color: #11161c;
+      }
+    }
+
+    @media (max-width: 960px) {
+      .hero { padding: 56px 0 48px; }
+      .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+      .hero h1, .hero p { max-width: none; }
       .hero-visual { order: -1; }
-      .phone-mockup { width: 200px; }
-      .features-grid { grid-template-columns: 1fr 1fr; }
-      .plans-grid { grid-template-columns: 1fr; }
-      .footer-inner { flex-direction: column; text-align: center; }
+      .hero-visual,
+      .hero-stack { min-height: 620px; }
+      .shot-main {
+        left: 40px;
+        top: 50%;
+        width: 245px;
+        transform: translateY(-48%);
+      }
+      .shot-side {
+        right: 24px;
+        top: 50%;
+        width: 215px;
+        transform: translateY(-28%);
+      }
+      .trust { padding-top: 40px; }
+      .trust-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }
+      .features-grid { grid-template-columns: repeat(2, 1fr); }
+      .screens-grid { grid-template-columns: repeat(3, 1fr); }
+      .pricing-head { grid-template-columns: 1fr; }
+      section { padding: 64px 0; }
     }
-    @media (max-width: 480px) {
+
+    @media (max-width: 560px) {
+      nav { padding: 12px 0; }
+      .nav-inner { padding: 10px 14px; }
+      .nav-links { display: none; }
+      .hero-visual,
+      .hero-stack { min-height: 610px; }
+      .shot-main {
+        left: 50%;
+        top: 50%;
+        width: 220px;
+        transform: translate(-55%, -50%);
+      }
+      .shot-side { display: none; }
+      .trust { padding-top: 28px; }
       .features-grid { grid-template-columns: 1fr; }
+      .screens-grid { grid-template-columns: repeat(2, 1fr); }
+      .trust-grid { grid-template-columns: 1fr; }
+      .compare-table th,
+      .compare-table td { padding: 12px 14px; }
+      .footer-inner { flex-direction: column; align-items: flex-start; }
     }
   </style>
 </head>
 <body>
-
   <nav>
     <div class="nav-inner">
-      <a href="/" class="nav-logo">
-        <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="balancebook icon" />
+      <a class="brand" href="/">
+        <picture>
+          <source srcset="assets/AppIcon-iOS-Dark-512x512@1x.png" media="(prefers-color-scheme: dark)" />
+          <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" />
+        </picture>
         balancebook
       </a>
       <ul class="nav-links">
         <li><a href="#features">Features</a></li>
+        <li><a href="#screens">App</a></li>
         <li><a href="#pricing">Pricing</a></li>
         <li><a href="support.html">Support</a></li>
       </ul>
+      <a class="nav-cta" href="#">Download</a>
     </div>
   </nav>
 
-  <section class="hero">
-    <div class="hero-content">
-      <div style="display:flex; align-items:center; gap:14px; margin-bottom:24px;">
-        <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="balancebook app icon" style="width:64px; height:64px; border-radius:16px; box-shadow:0 4px 16px rgba(0,0,0,0.1);" />
-        <span class="hero-eyebrow" style="margin-bottom:0;">Now available on iOS</span>
+  <header class="hero">
+    <div class="shell hero-grid">
+      <div>
+        <div class="eyebrow">Now on iPhone</div>
+        <h1>Track income, expenses, and budgets in one place.</h1>
+        <p>balancebook is an iPhone app for keeping up with day-to-day finances. Record transactions, review spending, manage budgets, and separate personal, household, or business ledgers when needed.</p>
+        <div class="hero-actions">
+          <a href="#" class="btn-appstore">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span class="btn-appstore-text">
+              <small>Download on the</small>
+              <span>App Store</span>
+            </span>
+          </a>
+        </div>
       </div>
-      <h1>Your money,<br /><span>finally clear.</span></h1>
-      <p>balancebook is a simple, beautiful finance tracker that helps you understand where your money goes — without the spreadsheet.</p>
-      <div class="hero-actions">
-        <a href="#" class="btn-appstore">
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-          <div class="btn-appstore-text">
-            <small>Download on the</small>
-            <span>App Store</span>
+
+      <div class="hero-visual">
+        <div class="hero-stack">
+          <div class="shot shot-main">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.57.22.png" alt="balancebook budgets screen" loading="eager" />
           </div>
-        </a>
+
+          <div class="shot shot-side">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.34.png" alt="balancebook Sankey cashflow screen" loading="lazy" />
+          </div>
+        </div>
       </div>
     </div>
-    <div class="hero-visual">
-      <div class="phone-mockup">
-        <div class="phone-screen">
-          <div class="mock-header">
-            <div>
-              <div class="mock-label">March 2026</div>
-              <div class="mock-amount">$1,248</div>
-            </div>
-          </div>
-          <div class="mock-chart">
-            <div class="mock-bar" style="height:45%; background:#e05c5c;"></div>
-            <div class="mock-bar" style="height:65%; background:#e05c5c;"></div>
-            <div class="mock-bar" style="height:35%; background:#e05c5c;"></div>
-            <div class="mock-bar" style="height:80%; background:#e05c5c;"></div>
-            <div class="mock-bar" style="height:55%; background:#e05c5c;"></div>
-            <div class="mock-bar" style="height:90%; background:#e05c5c; opacity:1;"></div>
-            <div class="mock-bar" style="height:70%; background:#e05c5c;"></div>
-            <div class="mock-bar" style="height:40%; background:#4caf70;"></div>
-            <div class="mock-bar" style="height:60%; background:#4caf70;"></div>
-            <div class="mock-bar" style="height:50%; background:#4caf70;"></div>
-            <div class="mock-bar" style="height:75%; background:#4caf70;"></div>
-            <div class="mock-bar" style="height:30%; background:#4caf70;"></div>
-          </div>
-          <div class="mock-entries">
-            <div class="mock-entry">
-              <div class="mock-entry-left">
-                <div class="mock-dot" style="background:#4caf70;"></div>
-                <div class="mock-entry-name">Salary</div>
-              </div>
-              <div class="mock-entry-amt" style="color:#4caf70;">+$3,500</div>
-            </div>
-            <div class="mock-entry">
-              <div class="mock-entry-left">
-                <div class="mock-dot" style="background:#e05c5c;"></div>
-                <div class="mock-entry-name">Rent</div>
-              </div>
-              <div class="mock-entry-amt" style="color:#e05c5c;">−$1,200</div>
-            </div>
-            <div class="mock-entry">
-              <div class="mock-entry-left">
-                <div class="mock-dot" style="background:#e05c5c;"></div>
-                <div class="mock-entry-name">Groceries</div>
-              </div>
-              <div class="mock-entry-amt" style="color:#e05c5c;">−$84</div>
-            </div>
-          </div>
+  </header>
+
+  <section class="trust">
+    <div class="shell trust-shell">
+      <div class="trust-grid">
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+          </span>
+          <span class="trust-text">
+            <strong>Private by default</strong>
+            <span>No ads, no trackers, and we do not sell your data.</span>
+          </span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 4v5h-5"/></svg>
+          </span>
+          <span class="trust-text">
+            <strong>Cloud backup</strong>
+            <span>Your data stays available across devices and can be restored when you sign back in.</span>
+          </span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M21.5 18a4.5 4.5 0 0 0-7-3.7"/></svg>
+          </span>
+          <span class="trust-text">
+            <strong>Shared ledgers</strong>
+            <span>Keep finances separate and share a ledger with a partner or teammate when needed.</span>
+          </span>
+        </div>
+        <div class="trust-item">
+          <span class="trust-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </span>
+          <span class="trust-text">
+            <strong>Fast daily use</strong>
+            <span>Add entries, review activity, and check budgets without extra setup or clutter.</span>
+          </span>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="features" id="features">
-    <div class="section-label">Features</div>
-    <h2 class="section-title">Everything you need, nothing you don't.</h2>
-    <div class="features-grid">
-      <div class="feature-card">
-        <div class="feature-icon">✏️</div>
-        <h3>Manual Mode</h3>
-        <p>Log every transaction yourself for complete control. Fast entry form with categories, tags, and recurring rules built in.</p>
+  <section id="features">
+    <div class="shell">
+      <div class="section-head">
+        <div class="section-eyebrow">Features</div>
+        <h2 class="section-title">More than a basic expense tracker.</h2>
+        <p class="section-lede">balancebook supports everyday transaction tracking, monthly review, budgets, recurring entries, separate ledgers, shared access, bank imports, and data export. This list is ordered by the features most people are likely to use first.</p>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔀</div>
-        <h3>Hybrid Mode <span style="font-size:11px; font-weight:600; color:var(--accent); background:rgba(44,95,46,0.1); padding:2px 6px; border-radius:4px; vertical-align:middle;">Pro</span></h3>
-        <p>Connect your bank to import transactions automatically, then review and categorize each one before it's logged.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚡</div>
-        <h3>Auto Mode <span style="font-size:11px; font-weight:600; color:var(--accent); background:rgba(44,95,46,0.1); padding:2px 6px; border-radius:4px; vertical-align:middle;">Pro</span></h3>
-        <p>Transactions sync from your bank and are categorized automatically using your custom rules — no manual entry needed.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📊</div>
-        <h3>Charts & Review</h3>
-        <p>Visual cashflow charts and monthly reviews help you spot trends at a glance.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🎯</div>
-        <h3>Budgets</h3>
-        <p>Create budgets by category and track your progress in real time throughout the month.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🔁</div>
-        <h3>Recurring Entries</h3>
-        <p>Set up recurring income and expenses once — balancebook handles the rest automatically.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">👥</div>
-        <h3>Shared Ledgers <span style="font-size:11px; font-weight:600; color:var(--accent); background:rgba(44,95,46,0.1); padding:2px 6px; border-radius:4px; vertical-align:middle;">Pro</span></h3>
-        <p>Invite a partner or family member to view or edit a ledger together in real time.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">🌊</div>
-        <h3>Sankey Diagram <span style="font-size:11px; font-weight:600; color:var(--accent); background:rgba(44,95,46,0.1); padding:2px 6px; border-radius:4px; vertical-align:middle;">Pro</span></h3>
-        <p>See exactly where your money flows — from income sources through every spending category — in a single visual.</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">📒</div>
-        <h3>Multiple Ledgers <span style="font-size:11px; font-weight:600; color:var(--accent); background:rgba(44,95,46,0.1); padding:2px 6px; border-radius:4px; vertical-align:middle;">Pro</span></h3>
-        <p>Keep personal, business, and shared finances in separate ledgers — all in one app.</p>
+
+      <div class="features-grid">
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+            </span>
+            <h3>Fast manual entry</h3>
+          </div>
+          <p>Record transactions with categories, tags, dates, notes, and recurring entries.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>
+            </span>
+            <h3>Budgets</h3>
+          </div>
+          <p>Create category budgets and keep progress visible throughout the month.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="m7 14 3-3 3 2 5-6"/></svg>
+            </span>
+            <h3>Monthly review</h3>
+          </div>
+          <p>Compare months, spot changes in spending, and see where money is going.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 8h10"/><path d="M7 12h6"/></svg>
+            </span>
+            <h3>Multiple ledgers <span class="pro-tag">Pro</span></h3>
+          </div>
+          <p>Keep personal, household, side-business, or shared finances in separate ledgers.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M4 12h10"/><path d="M4 17h7"/><circle cx="17" cy="12" r="3"/></svg>
+            </span>
+            <h3>Categories and tags</h3>
+          </div>
+          <p>Organize transactions with custom categories and tags, then use them later for filtering and breakdowns.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M8 2v4"/><path d="M16 2v4"/><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M3 10h18"/></svg>
+            </span>
+            <h3>Recurring entries</h3>
+          </div>
+          <p>Set up repeating income or expenses once and let the app handle the schedule going forward.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </span>
+            <h3>Bank import and review <span class="pro-tag">Pro</span></h3>
+          </div>
+          <p>Import transactions automatically, review them before they are logged, and use rules to reduce repeat work.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M21.5 18a4.5 4.5 0 0 0-7-3.7"/></svg>
+            </span>
+            <h3>Shared ledgers <span class="pro-tag">Pro</span></h3>
+          </div>
+          <p>Share a ledger with another person and choose whether they can view it or edit it.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 6h12"/><path d="M3 12h18"/><path d="M3 18h9"/></svg>
+            </span>
+            <h3>Cash flow and trends <span class="pro-tag">Pro</span></h3>
+          </div>
+          <p>Use the Sankey chart, category trends, tag breakdowns, and budget history to analyze how money moves over time.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
+            </span>
+            <h3>Import and export <span class="pro-tag">Pro</span></h3>
+          </div>
+          <p>Export ledger backups as JSON, export entries as CSV or JSON, and import data when you need to restore or move it.</p>
+        </article>
       </div>
     </div>
   </section>
 
-  <section class="screenshots">
-    <div class="screenshots-inner">
-      <div class="section-label">The app</div>
-      <h2 class="section-title">See it in action.</h2>
-      <div class="screenshots-grid">
-        <div>
-          <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-30 at 21.39.39.png" alt="Entries view" />
-          </div>
-          <div class="screenshot-label">Entries</div>
+  <section id="screens" class="screenshots">
+    <div class="shell">
+      <div class="section-head">
+        <div class="section-eyebrow">The app</div>
+        <h2 class="section-title">The main parts of the app at a glance.</h2>
+        <p class="section-lede">Entries, review, categories, budgets, and cash flow are all available from the same core workflow, so the app stays consistent as your data grows.</p>
+      </div>
+
+      <div class="screens-grid">
+        <div class="screen">
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.24.png" data-lightbox-alt="Entries screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.24.png" alt="Entries screen" loading="lazy" />
+          </button>
+          <div class="screen-label">Entries</div>
         </div>
-        <div>
-          <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-30 at 21.39.48.png" alt="Review view" />
-          </div>
-          <div class="screenshot-label">Review</div>
+        <div class="screen">
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.30.png" data-lightbox-alt="Review screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.30.png" alt="Review screen" loading="lazy" />
+          </button>
+          <div class="screen-label">Review</div>
         </div>
-        <div>
-          <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-30 at 21.39.58.png" alt="Sankey cashflow" />
-          </div>
-          <div class="screenshot-label">Sankey</div>
+        <div class="screen">
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.34.png" data-lightbox-alt="Sankey cashflow screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.34.png" alt="Sankey cashflow screen" loading="lazy" />
+          </button>
+          <div class="screen-label">Sankey</div>
         </div>
-        <div>
-          <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-30 at 21.40.08.png" alt="Categories view" />
-          </div>
-          <div class="screenshot-label">Categories</div>
+        <div class="screen">
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.38.png" data-lightbox-alt="Categories screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.38.png" alt="Categories screen" loading="lazy" />
+          </button>
+          <div class="screen-label">Categories</div>
         </div>
-        <div>
-          <div class="screenshot-frame">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-03-30 at 21.40.18.png" alt="Budgets view" />
-          </div>
-          <div class="screenshot-label">Budgets</div>
+        <div class="screen">
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.57.22.png" data-lightbox-alt="Budgets screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.57.22.png" alt="Budgets screen" loading="lazy" />
+          </button>
+          <div class="screen-label">Budgets</div>
         </div>
       </div>
     </div>
   </section>
 
-  <section class="plans" id="pricing">
-    <div class="plans-inner">
-      <div class="section-label">Pricing</div>
-      <h2 class="section-title">Start free. Upgrade when you're ready.</h2>
-      <div class="plans-grid">
-        <div class="plan-card">
-          <div class="plan-name">Basic</div>
-          <div class="plan-price">Free</div>
-          <div class="plan-period">forever</div>
-          <ul class="plan-features">
-            <li>Unlimited entries</li>
-            <li>1 ledger</li>
-            <li>Up to 8 categories</li>
-            <li>1 budget</li>
-            <li>Manual entry mode</li>
-            <li>Recurring entries</li>
-            <li>Charts &amp; review</li>
-            <li>Cloud backup</li>
-          </ul>
+  <section id="pricing">
+    <div class="shell">
+      <div class="section-head pricing-head">
+        <div>
+          <div class="section-eyebrow">Pricing</div>
+          <h2 class="section-title">Start with the free plan and upgrade if you need more capacity.</h2>
+          <p class="section-lede">Basic covers everyday tracking. Pro adds more ledgers, more analysis, shared access, and data import and export tools.</p>
         </div>
-        <div class="plan-card featured">
-          <div class="plan-name">Pro</div>
-          <div class="plan-price">$.XX</div>
-          <div class="plan-period">per month · or $.XX/yr</div>
-          <ul class="plan-features">
-            <li>Everything in Basic</li>
-            <li>Unlimited ledgers</li>
-            <li>Unlimited categories</li>
-            <li>Unlimited budgets</li>
-            <li>Shared ledgers with view and edit roles</li>
-            <li>Hybrid entry mode — review imports with custom rules</li>
-            <li>Auto entry mode — automatic bank syncing</li>
-            <li>Sankey cashflow chart</li>
-            <li>Category trends</li>
-            <li>Tag category breakdown</li>
-            <li>Budget history</li>
-            <li>Export &amp; import data</li>
-          </ul>
+        <div class="pricing-summary">
+          <div class="pricing-summary-card">
+            <span class="pricing-summary-label">Basic</span>
+            <span class="pricing-summary-price">Free</span>
+            <span class="pricing-summary-note">For everyday tracking</span>
+          </div>
+          <div class="pricing-summary-card">
+            <span class="pricing-summary-label">Pro</span>
+            <span class="pricing-summary-price">$1.99 / mo</span>
+            <span class="pricing-summary-note">Or $19.99 / year, save 16%</span>
+          </div>
         </div>
+      </div>
+
+      <div class="pricing-compare">
+        <div class="pricing-compare-head">
+          <h3>Compare plans</h3>
+          <p>Everything important is in one place: pricing, limits, and Pro-only features.</p>
+        </div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Feature</th>
+              <th>Basic</th>
+              <th>Pro</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Entries</td>
+              <td class="compare-value">Unlimited</td>
+              <td class="compare-value">Unlimited</td>
+            </tr>
+            <tr>
+              <td>Ledgers</td>
+              <td class="compare-value">1</td>
+              <td class="compare-value">Unlimited</td>
+            </tr>
+            <tr>
+              <td>Categories</td>
+              <td class="compare-value">Up to 8</td>
+              <td class="compare-value">Unlimited</td>
+            </tr>
+            <tr>
+              <td>Budgets</td>
+              <td class="compare-value">1</td>
+              <td class="compare-value">Unlimited</td>
+            </tr>
+            <tr>
+              <td>Manual entry mode</td>
+              <td class="compare-value yes">Included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Recurring entries</td>
+              <td class="compare-value yes">Included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Charts and review</td>
+              <td class="compare-value yes">Included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Cloud backup</td>
+              <td class="compare-value yes">Included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Shared ledgers</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Hybrid entry mode</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Auto entry mode</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Sankey cashflow chart</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Category trends</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Tag category breakdown</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Budget history</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Export ledger backup</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">JSON</td>
+            </tr>
+            <tr>
+              <td>Export entries</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">CSV or JSON</td>
+            </tr>
+            <tr>
+              <td>Import data</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
 
   <section class="cta">
-    <img src="assets/AppIcon-iOS-Dark-512x512@1x.png" alt="" style="width:72px; height:72px; border-radius:18px; box-shadow:0 8px 24px rgba(0,0,0,0.12); margin-bottom:24px;" />
-    <h2>Take control of your finances.</h2>
-    <p>Free to download. No account required.</p>
-    <a href="#" class="btn-appstore" style="display:inline-flex;">
-      <svg width="20" height="20" viewBox="0 0 24 24" fill="white"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
-      <div class="btn-appstore-text">
-        <small>Download on the</small>
-        <span>App Store</span>
+    <div class="shell">
+      <div class="cta-panel">
+        <picture>
+          <source srcset="assets/AppIcon-iOS-Dark-512x512@1x.png" media="(prefers-color-scheme: dark)" />
+          <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" />
+        </picture>
+        <h2>Download balancebook for iPhone.</h2>
+        <p>Start with the free plan and use it to track transactions, monitor budgets, and review your finances over time.</p>
+        <a href="#" class="btn-appstore" style="display:inline-flex;">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span class="btn-appstore-text">
+            <small>Download on the</small>
+            <span>App Store</span>
+          </span>
+        </a>
       </div>
-    </a>
+    </div>
   </section>
 
+  <div class="lightbox" id="screenshot-lightbox" aria-hidden="true">
+    <button class="lightbox-backdrop" type="button" aria-label="Close screenshot viewer"></button>
+    <div class="lightbox-dialog" role="dialog" aria-modal="true" aria-labelledby="lightbox-caption">
+      <button class="lightbox-close" type="button" aria-label="Close screenshot viewer">×</button>
+      <div class="lightbox-image-wrap">
+        <img class="lightbox-image" src="" alt="" />
+      </div>
+      <div class="lightbox-caption" id="lightbox-caption"></div>
+    </div>
+  </div>
+
   <footer>
-    <div class="footer-inner">
-      <span class="footer-copy">© 2026 balancebook. All rights reserved.</span>
+    <div class="shell footer-inner">
+      <div class="footer-brand">
+        <picture>
+          <source srcset="assets/AppIcon-iOS-Dark-512x512@1x.png" media="(prefers-color-scheme: dark)" />
+          <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" />
+        </picture>
+        <span>© 2026 balancebook</span>
+      </div>
       <ul class="footer-links">
         <li><a href="support.html">Support</a></li>
         <li><a href="privacy.html">Privacy</a></li>
@@ -646,6 +1449,79 @@
       </ul>
     </div>
   </footer>
+  <script>
+    (function () {
+      const lightbox = document.getElementById('screenshot-lightbox');
+      const lightboxImage = lightbox.querySelector('.lightbox-image');
+      const lightboxDialog = lightbox.querySelector('.lightbox-dialog');
+      const lightboxCaption = lightbox.querySelector('.lightbox-caption');
+      const closeButtons = lightbox.querySelectorAll('.lightbox-backdrop, .lightbox-close');
+      const triggers = document.querySelectorAll('.screen-frame[data-lightbox-src]');
+      let lastTrigger = null;
+      let isZoomed = false;
 
+      function openLightbox(trigger) {
+        const src = trigger.getAttribute('data-lightbox-src');
+        const alt = trigger.getAttribute('data-lightbox-alt') || '';
+        lightboxImage.src = src;
+        lightboxImage.alt = alt;
+        lightboxImage.classList.remove('is-zoomed');
+        lightboxCaption.textContent = alt;
+        lightbox.classList.add('is-open');
+        lightbox.setAttribute('aria-hidden', 'false');
+        document.body.style.overflow = 'hidden';
+        lastTrigger = trigger;
+        isZoomed = false;
+      }
+
+      function closeLightbox() {
+        lightbox.classList.remove('is-open');
+        lightbox.setAttribute('aria-hidden', 'true');
+        lightboxImage.src = '';
+        lightboxImage.alt = '';
+        lightboxImage.classList.remove('is-zoomed');
+        lightboxCaption.textContent = '';
+        document.body.style.overflow = '';
+        isZoomed = false;
+        if (lastTrigger) lastTrigger.focus();
+      }
+
+      function toggleZoom(event) {
+        if (!isZoomed) {
+          const rect = lightboxImage.getBoundingClientRect();
+          const x = ((event.clientX - rect.left) / rect.width) * 100;
+          const y = ((event.clientY - rect.top) / rect.height) * 100;
+          lightboxImage.style.transformOrigin = `${x}% ${y}%`;
+        } else {
+          lightboxImage.style.transformOrigin = 'center center';
+        }
+
+        isZoomed = !isZoomed;
+        lightboxImage.classList.toggle('is-zoomed', isZoomed);
+      }
+
+      triggers.forEach((trigger) => {
+        trigger.addEventListener('click', () => openLightbox(trigger));
+      });
+
+      closeButtons.forEach((button) => {
+        button.addEventListener('click', closeLightbox);
+      });
+
+      lightboxDialog.addEventListener('click', (event) => {
+        if (event.target !== lightboxImage) {
+          closeLightbox();
+        }
+      });
+
+      document.addEventListener('keydown', (event) => {
+        if (event.key === 'Escape' && lightbox.classList.contains('is-open')) {
+          closeLightbox();
+        }
+      });
+
+      lightboxImage.addEventListener('click', toggleZoom);
+    }());
+  </script>
 </body>
 </html>
