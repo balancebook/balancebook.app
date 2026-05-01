@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>balancebook — A calm personal finance tracker for iPhone</title>
+  <title>balancebook — Personal finance tracker for iPhone</title>
   <meta name="description" content="balancebook is a private, focused personal finance tracker for iPhone. Log entries, review the month, and stay on top of budgets without spreadsheets." />
   <meta name="theme-color" content="#f8f8f5" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -166,7 +166,7 @@
     }
 
     .hero {
-      padding: 92px 0 72px;
+      padding: 52px 0 72px;
     }
 
     .hero-grid {
@@ -973,7 +973,7 @@
     }
 
     @media (max-width: 960px) {
-      .hero { padding: 56px 0 48px; }
+      .hero { padding: 48px 0; }
       .hero-grid { grid-template-columns: 1fr; gap: 64px; }
       .hero h1, .hero p { max-width: none; }
       .hero-visual { order: -1; }
@@ -1106,7 +1106,7 @@
       <div class="section-head">
         <div class="section-eyebrow">Features</div>
         <h2 class="section-title">More than a basic expense tracker.</h2>
-        <p class="section-lede">balancebook supports everyday transaction tracking, monthly review, budgets, recurring entries, separate ledgers, shared access, bank imports, and data export. This list is ordered by the features most people are likely to use first.</p>
+        <p class="section-lede">balancebook supports everyday transaction tracking, monthly review, budgets, recurring entries, separate ledgers, shared access, bank imports, net worth tracking, and data export. This list is ordered by the features most people are likely to use first.</p>
       </div>
 
       <div class="features-grid">
@@ -1203,6 +1203,16 @@
         <article class="feature">
           <div class="feature-head">
             <span class="feature-icon" aria-hidden="true">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M3 21h18"/><path d="M5 21V9l7-5 7 5v12"/><path d="M9 21v-6h6v6"/></svg>
+            </span>
+            <h3>Net worth tracking <span class="pro-tag">Pro</span></h3>
+          </div>
+          <p>Track connected account balances, assets, liabilities, and net worth history in Review.</p>
+        </article>
+
+        <article class="feature">
+          <div class="feature-head">
+            <span class="feature-icon" aria-hidden="true">
               <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="m7 10 5 5 5-5"/><path d="M12 15V3"/></svg>
             </span>
             <h3>Import and export <span class="pro-tag">Pro</span></h3>
@@ -1262,7 +1272,7 @@
         <div>
           <div class="section-eyebrow">Pricing</div>
           <h2 class="section-title">Start with the free plan and upgrade if you need more capacity.</h2>
-          <p class="section-lede">Basic covers everyday tracking. Pro adds more ledgers, more analysis, shared access, and data import and export tools.</p>
+          <p class="section-lede">Basic covers everyday tracking. Pro adds more ledgers, more analysis, shared access, net worth tracking, and data import and export tools.</p>
         </div>
         <div class="pricing-summary">
           <div class="pricing-summary-card">
@@ -1272,8 +1282,7 @@
           </div>
           <div class="pricing-summary-card">
             <span class="pricing-summary-label">Pro</span>
-            <span class="pricing-summary-price">$1.99 / mo</span>
-            <span class="pricing-summary-note">Or $19.99 / year, save 16%</span>
+            <span class="pricing-summary-price">$x.xx / mo</span>
           </div>
         </div>
       </div>
@@ -1281,7 +1290,7 @@
       <div class="pricing-compare">
         <div class="pricing-compare-head">
           <h3>Compare plans</h3>
-          <p>Everything important is in one place: pricing, limits, and Pro-only features.</p>
+          <p>Everything important is in one place: limits and Pro-only features.</p>
         </div>
         <table class="compare-table">
           <thead>
@@ -1349,6 +1358,11 @@
             </tr>
             <tr>
               <td>Sankey cashflow chart</td>
+              <td class="compare-value">Not included</td>
+              <td class="compare-value yes">Included</td>
+            </tr>
+            <tr>
+              <td>Net worth tracking</td>
               <td class="compare-value">Not included</td>
               <td class="compare-value yes">Included</td>
             </tr>
