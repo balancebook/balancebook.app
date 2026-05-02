@@ -6,6 +6,18 @@
   <title>balancebook — Personal finance tracker for iPhone</title>
   <meta name="description" content="balancebook is a private, focused personal finance tracker for iPhone. Log entries, review the month, and stay on top of budgets without spreadsheets." />
   <meta name="theme-color" content="#f8f8f5" />
+  <script>
+    (function () {
+      let mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      try {
+        const savedMode = window.localStorage.getItem('balancebookDisplayMode');
+        if (savedMode === 'dark' || savedMode === 'light') mode = savedMode;
+      } catch (_) {}
+      document.documentElement.setAttribute('data-theme', mode);
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeColorMeta) themeColorMeta.setAttribute('content', mode === 'dark' ? '#0d1217' : '#f8f8f5');
+    }());
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
@@ -513,9 +525,87 @@
       border-bottom: 1px solid var(--line-soft);
     }
 
+    .screens-head {
+      max-width: 720px;
+    }
+
+    .screenshot-mode-toggle {
+      display: inline-flex;
+      align-items: center;
+      gap: 9px;
+      padding: 6px 10px 6px 6px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      background: rgba(255, 255, 255, 0.64);
+      box-shadow: var(--shadow-sm);
+      cursor: pointer;
+      user-select: none;
+      margin-top: 22px;
+    }
+
+    .screenshot-mode-toggle input {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .screenshot-mode-current {
+      min-width: 34px;
+      color: var(--muted);
+      font-size: 13px;
+      font-weight: 600;
+      line-height: 1;
+      transition: color 0.15s ease;
+    }
+
+    .screenshot-mode-toggle[data-active-mode="light"] .screenshot-mode-current,
+    .screenshot-mode-toggle[data-active-mode="dark"] .screenshot-mode-current {
+      color: var(--ink);
+    }
+
+    .screenshot-mode-switch {
+      position: relative;
+      width: 42px;
+      height: 26px;
+      border-radius: 999px;
+      background: #d8ded8;
+      box-shadow:
+        inset 0 1px 2px rgba(15, 23, 32, 0.12),
+        inset 0 0 0 1px rgba(15, 23, 32, 0.06);
+      transition: background 0.18s ease;
+    }
+
+    .screenshot-mode-switch::after {
+      content: "";
+      position: absolute;
+      top: 3px;
+      left: 3px;
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #ffffff;
+      box-shadow: 0 3px 8px rgba(15, 23, 32, 0.22);
+      transition: transform 0.18s cubic-bezier(0.2, 0.8, 0.2, 1);
+    }
+
+    .screenshot-mode-toggle input:checked + .screenshot-mode-switch {
+      background: #236846;
+    }
+
+    .screenshot-mode-toggle input:checked + .screenshot-mode-switch::after {
+      transform: translateX(16px);
+    }
+
+    .screenshot-mode-toggle input:focus-visible + .screenshot-mode-switch {
+      outline: 3px solid rgba(35, 104, 70, 0.24);
+      outline-offset: 3px;
+    }
+
     .screens-grid {
       display: grid;
-      grid-template-columns: repeat(5, 1fr);
+      grid-template-columns: repeat(6, 1fr);
       gap: 20px;
     }
 
@@ -755,6 +845,18 @@
         background: linear-gradient(180deg, rgba(17, 24, 31, 0.86), rgba(13, 18, 23, 0.7));
       }
 
+      .screenshot-mode-toggle {
+        background: rgba(17, 24, 31, 0.9);
+        border-color: rgba(255, 255, 255, 0.08);
+      }
+
+      .screenshot-mode-switch {
+        background: #2b3742;
+        box-shadow:
+          inset 0 1px 2px rgba(0, 0, 0, 0.24),
+          inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+      }
+
       .pricing-compare-head {
         border-bottom-color: rgba(255, 255, 255, 0.06);
       }
@@ -972,6 +1074,230 @@
       }
     }
 
+    :root[data-theme="light"] {
+      --ink: #0f1720;
+      --body: #4d5966;
+      --muted: #6d7783;
+      --line: rgba(15, 23, 32, 0.1);
+      --line-soft: rgba(15, 23, 32, 0.06);
+      --surface: rgba(255, 255, 255, 0.82);
+      --surface-strong: #ffffff;
+      --bg: #f8f8f5;
+      --bg-soft: #f3f4ef;
+      --accent: #236846;
+      --accent-soft: rgba(35, 104, 70, 0.08);
+      --shadow-sm: 0 6px 18px rgba(15, 23, 32, 0.05);
+      --shadow-md: 0 18px 44px rgba(15, 23, 32, 0.08);
+      color-scheme: light;
+    }
+
+    :root[data-theme="dark"] {
+      --ink: #edf2f7;
+      --body: #b5c0cb;
+      --muted: #8f9baa;
+      --line: rgba(255, 255, 255, 0.1);
+      --line-soft: rgba(255, 255, 255, 0.06);
+      --surface: rgba(17, 24, 31, 0.82);
+      --surface-strong: #141b22;
+      --bg: #0d1217;
+      --bg-soft: #111820;
+      --accent: #6abb8e;
+      --accent-soft: rgba(106, 187, 142, 0.12);
+      --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.24);
+      --shadow-md: 0 20px 52px rgba(0, 0, 0, 0.34);
+      color-scheme: dark;
+    }
+
+    :root[data-theme="light"] body {
+      background:
+        radial-gradient(circle at 12% 0%, rgba(201, 92, 78, 0.26), transparent 34%),
+        radial-gradient(circle at 88% 0%, rgba(41, 113, 77, 0.24), transparent 34%),
+        linear-gradient(90deg, rgba(201, 92, 78, 0.09) 0%, rgba(248, 248, 245, 0) 42%, rgba(41, 113, 77, 0.09) 100%),
+        linear-gradient(180deg, #f6f4f1 0%, #f8f8f5 24%, #fbfbf9 100%);
+    }
+
+    :root[data-theme="dark"] body {
+      background:
+        radial-gradient(circle at 12% 0%, rgba(201, 92, 78, 0.18), transparent 32%),
+        radial-gradient(circle at 88% 0%, rgba(41, 113, 77, 0.18), transparent 32%),
+        linear-gradient(90deg, rgba(201, 92, 78, 0.07) 0%, rgba(13, 18, 23, 0) 42%, rgba(41, 113, 77, 0.07) 100%),
+        linear-gradient(180deg, #0d1217 0%, #10161c 24%, #121920 100%);
+    }
+
+    :root[data-theme="light"] nav {
+      background: linear-gradient(180deg, rgba(246, 244, 241, 0.82), rgba(248, 248, 245, 0.46));
+      border-bottom-color: rgba(15, 23, 32, 0.05);
+    }
+
+    :root[data-theme="dark"] nav {
+      background: linear-gradient(180deg, rgba(12, 18, 24, 0.84), rgba(12, 18, 24, 0.5));
+      border-bottom-color: rgba(255, 255, 255, 0.05);
+    }
+
+    :root[data-theme="light"] .nav-inner {
+      background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.2));
+      border-color: rgba(255, 255, 255, 0.42);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.42),
+        0 12px 28px rgba(15, 23, 32, 0.08);
+    }
+
+    :root[data-theme="dark"] .nav-inner {
+      background: linear-gradient(180deg, rgba(22, 30, 38, 0.66), rgba(22, 30, 38, 0.42));
+      border-color: rgba(255, 255, 255, 0.08);
+      box-shadow:
+        inset 0 1px 0 rgba(255, 255, 255, 0.06),
+        0 12px 28px rgba(0, 0, 0, 0.24);
+    }
+
+    :root[data-theme="light"] .eyebrow {
+      background: rgba(255, 255, 255, 0.68);
+      border-color: rgba(35, 104, 70, 0.12);
+    }
+
+    :root[data-theme="light"] .trust-shell,
+    :root[data-theme="light"] .cta-panel {
+      background: rgba(255, 255, 255, 0.78);
+      border-color: var(--line);
+    }
+
+    :root[data-theme="light"] .feature,
+    :root[data-theme="light"] .pricing-summary-card,
+    :root[data-theme="light"] .pricing-compare {
+      background: rgba(255, 255, 255, 0.84);
+      border-color: var(--line);
+    }
+
+    :root[data-theme="dark"] .eyebrow,
+    :root[data-theme="dark"] .trust-shell,
+    :root[data-theme="dark"] .feature,
+    :root[data-theme="dark"] .pricing-summary-card,
+    :root[data-theme="dark"] .pricing-compare,
+    :root[data-theme="dark"] .cta-panel {
+      background: rgba(17, 24, 31, 0.9);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    :root[data-theme="dark"] .trust-icon,
+    :root[data-theme="dark"] .feature-icon {
+      background: rgba(106, 187, 142, 0.12);
+    }
+
+    :root[data-theme="light"] .screenshots {
+      background: linear-gradient(180deg, rgba(243, 244, 239, 0.82), rgba(248, 248, 245, 0.7));
+    }
+
+    :root[data-theme="dark"] .screenshots {
+      background: linear-gradient(180deg, rgba(17, 24, 31, 0.86), rgba(13, 18, 23, 0.7));
+    }
+
+    :root[data-theme="light"] .screenshot-mode-toggle {
+      background: rgba(255, 255, 255, 0.64);
+      border-color: var(--line);
+    }
+
+    :root[data-theme="dark"] .screenshot-mode-toggle {
+      background: rgba(17, 24, 31, 0.9);
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    :root[data-theme="light"] .screenshot-mode-switch {
+      background: #d8ded8;
+      box-shadow:
+        inset 0 1px 2px rgba(15, 23, 32, 0.12),
+        inset 0 0 0 1px rgba(15, 23, 32, 0.06);
+    }
+
+    :root[data-theme="dark"] .screenshot-mode-switch {
+      background: #2b3742;
+      box-shadow:
+        inset 0 1px 2px rgba(0, 0, 0, 0.24),
+        inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+    }
+
+    :root[data-theme="dark"] .screenshot-mode-toggle input:checked + .screenshot-mode-switch,
+    :root[data-theme="light"] .screenshot-mode-toggle input:checked + .screenshot-mode-switch {
+      background: #236846;
+    }
+
+    :root[data-theme="light"] .pricing-compare-head {
+      border-bottom-color: var(--line-soft);
+    }
+
+    :root[data-theme="dark"] .pricing-compare-head {
+      border-bottom-color: rgba(255, 255, 255, 0.06);
+    }
+
+    :root[data-theme="light"] .compare-table thead th,
+    :root[data-theme="light"] .compare-price-row td {
+      background: rgba(15, 23, 32, 0.02);
+    }
+
+    :root[data-theme="dark"] .compare-table thead th,
+    :root[data-theme="dark"] .compare-price-row td {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    :root[data-theme="light"] .compare-table th,
+    :root[data-theme="light"] .compare-table td {
+      border-bottom-color: var(--line-soft);
+    }
+
+    :root[data-theme="dark"] .compare-table th,
+    :root[data-theme="dark"] .compare-table td {
+      border-bottom-color: rgba(255, 255, 255, 0.06);
+    }
+
+    :root[data-theme="dark"] .compare-value.yes {
+      color: #8ad0a7;
+    }
+
+    :root[data-theme="light"] .cta-panel {
+      background: rgba(255, 255, 255, 0.78);
+      border-color: var(--line);
+    }
+
+    :root[data-theme="dark"] .cta-panel {
+      background: linear-gradient(180deg, rgba(22, 30, 38, 0.94), rgba(16, 22, 29, 0.92));
+      border-color: rgba(255, 255, 255, 0.08);
+    }
+
+    :root[data-theme="light"] .cta img {
+      box-shadow: 0 6px 16px -6px rgba(14, 17, 22, 0.14);
+    }
+
+    :root[data-theme="dark"] .cta img {
+      box-shadow: 0 10px 24px rgba(0, 0, 0, 0.3);
+    }
+
+    :root[data-theme="light"] footer {
+      background: rgba(255, 255, 255, 0.56);
+      border-top-color: var(--line);
+    }
+
+    :root[data-theme="dark"] footer {
+      background: rgba(10, 15, 20, 0.78);
+      border-top-color: rgba(255, 255, 255, 0.06);
+    }
+
+    :root[data-theme="light"] .lightbox {
+      background: rgba(15, 23, 32, 0.76);
+    }
+
+    :root[data-theme="dark"] .lightbox {
+      background: rgba(4, 8, 12, 0.84);
+    }
+
+    :root[data-theme="light"] .lightbox-close {
+      background: rgba(255, 255, 255, 0.9);
+      color: var(--ink);
+    }
+
+    :root[data-theme="dark"] .lightbox-close {
+      background: rgba(255, 255, 255, 0.92);
+      color: #11161c;
+    }
+
     @media (max-width: 960px) {
       .hero { padding: 48px 0; }
       .hero-grid { grid-template-columns: 1fr; gap: 64px; }
@@ -998,6 +1324,7 @@
         aspect-ratio: 1 / 1.28;
       }
       .trust { padding-top: 20px; }
+      .screenshot-mode-toggle { width: 100%; justify-content: space-between; }
       .features-grid { grid-template-columns: 1fr; }
       .screens-grid { grid-template-columns: repeat(2, 1fr); }
       .trust-grid { grid-template-columns: 1fr; }
@@ -1011,10 +1338,7 @@
   <nav>
     <div class="nav-inner">
       <a class="brand" href="/">
-        <picture>
-          <source srcset="assets/AppIcon-iOS-Dark-512x512@1x.png" media="(prefers-color-scheme: dark)" />
-          <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" />
-        </picture>
+        <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" data-theme-icon data-light-src="assets/AppLogo-iOS-Default-512x512@1x.png" data-dark-src="assets/AppIcon-iOS-Dark-512x512@1x.png" />
         balancebook
       </a>
       <ul class="nav-links">
@@ -1047,11 +1371,11 @@
       <div class="hero-visual">
         <div class="hero-stack">
           <div class="shot shot-main">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.57.22.png" alt="balancebook budgets screen" loading="eager" />
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.58.23.png" alt="balancebook budgets screen" loading="eager" data-theme-image data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.58.27.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.58.23.png" />
           </div>
 
           <div class="shot shot-side">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.34.png" alt="balancebook Sankey cashflow screen" loading="lazy" />
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.14.png" alt="balancebook Sankey cashflow screen" loading="lazy" data-theme-image data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.17.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.14.png" />
           </div>
         </div>
       </div>
@@ -1225,40 +1549,51 @@
 
   <section id="screens" class="screenshots">
     <div class="shell">
-      <div class="section-head">
+      <div class="section-head screens-head">
         <div class="section-eyebrow">The app</div>
         <h2 class="section-title">The main parts of the app at a glance.</h2>
         <p class="section-lede">Entries, review, categories, budgets, and cash flow are all available from the same core workflow, so the app stays consistent as your data grows.</p>
+        <label class="screenshot-mode-toggle" data-screenshot-toggle data-active-mode="dark">
+          <input id="screenshot-mode-switch" type="checkbox" role="switch" aria-label="Use dark mode" checked />
+          <span class="screenshot-mode-switch" aria-hidden="true"></span>
+          <span class="screenshot-mode-current" data-screenshot-mode-current>Dark</span>
+        </label>
       </div>
 
       <div class="screens-grid">
         <div class="screen">
-          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.24.png" data-lightbox-alt="Entries screen">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.24.png" alt="Entries screen" loading="lazy" />
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.55.16.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.55.16.png" data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.55.48.png" data-lightbox-alt="Entries screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.55.16.png" alt="Entries screen" loading="lazy" />
           </button>
           <div class="screen-label">Entries</div>
         </div>
         <div class="screen">
-          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.30.png" data-lightbox-alt="Review screen">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.30.png" alt="Review screen" loading="lazy" />
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.56.56.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.56.56.png" data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.01.png" data-lightbox-alt="Review screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.56.56.png" alt="Review screen" loading="lazy" />
           </button>
           <div class="screen-label">Review</div>
         </div>
         <div class="screen">
-          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.34.png" data-lightbox-alt="Sankey cashflow screen">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.34.png" alt="Sankey cashflow screen" loading="lazy" />
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.56.19.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.56.19.png" data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.56.27.png" data-lightbox-alt="Net Worth screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.56.19.png" alt="Net Worth screen" loading="lazy" />
           </button>
-          <div class="screen-label">Sankey</div>
+          <div class="screen-label">Net Worth</div>
         </div>
         <div class="screen">
-          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.38.png" data-lightbox-alt="Categories screen">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.56.38.png" alt="Categories screen" loading="lazy" />
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.14.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.14.png" data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.17.png" data-lightbox-alt="Cashflow screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.14.png" alt="Cashflow screen" loading="lazy" />
+          </button>
+          <div class="screen-label">Cashflow</div>
+        </div>
+        <div class="screen">
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.45.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.45.png" data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.49.png" data-lightbox-alt="Categories screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.57.45.png" alt="Categories screen" loading="lazy" />
           </button>
           <div class="screen-label">Categories</div>
         </div>
         <div class="screen">
-          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.57.22.png" data-lightbox-alt="Budgets screen">
-            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-04-19 at 23.57.22.png" alt="Budgets screen" loading="lazy" />
+          <button class="screen-frame" type="button" data-lightbox-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.58.23.png" data-dark-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.58.23.png" data-light-src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.58.27.png" data-lightbox-alt="Budgets screen">
+            <img src="assets/Simulator Screenshot - iPhone 17 Pro - 2026-05-02 at 00.58.23.png" alt="Budgets screen" loading="lazy" />
           </button>
           <div class="screen-label">Budgets</div>
         </div>
@@ -1410,10 +1745,7 @@
   <section class="cta">
     <div class="shell">
       <div class="cta-panel">
-        <picture>
-          <source srcset="assets/AppIcon-iOS-Dark-512x512@1x.png" media="(prefers-color-scheme: dark)" />
-          <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" />
-        </picture>
+        <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" data-theme-icon data-light-src="assets/AppLogo-iOS-Default-512x512@1x.png" data-dark-src="assets/AppIcon-iOS-Dark-512x512@1x.png" />
         <h2>Download balancebook for iPhone.</h2>
         <p>Start with the free plan and use it to track transactions, monitor budgets, and review your finances over time.</p>
         <a href="#" class="btn-appstore" style="display:inline-flex;">
@@ -1441,10 +1773,7 @@
   <footer>
     <div class="shell footer-inner">
       <div class="footer-brand">
-        <picture>
-          <source srcset="assets/AppIcon-iOS-Dark-512x512@1x.png" media="(prefers-color-scheme: dark)" />
-          <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" />
-        </picture>
+        <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" data-theme-icon data-light-src="assets/AppLogo-iOS-Default-512x512@1x.png" data-dark-src="assets/AppIcon-iOS-Dark-512x512@1x.png" />
         <span>© 2026 balancebook</span>
       </div>
       <ul class="footer-links">
@@ -1462,11 +1791,58 @@
       const lightboxCaption = lightbox.querySelector('.lightbox-caption');
       const closeButtons = lightbox.querySelectorAll('.lightbox-backdrop, .lightbox-close');
       const triggers = document.querySelectorAll('.screen-frame[data-lightbox-src]');
+      const modeToggle = document.querySelector('[data-screenshot-toggle]');
+      const modeSwitch = document.getElementById('screenshot-mode-switch');
+      const modeCurrentLabel = document.querySelector('[data-screenshot-mode-current]');
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      const themeIcons = document.querySelectorAll('[data-theme-icon]');
+      const themeImages = document.querySelectorAll('[data-theme-image]');
       let lastTrigger = null;
       let isZoomed = false;
+      const savedMode = (() => {
+        try {
+          return window.localStorage.getItem('balancebookDisplayMode');
+        } catch (_) {
+          return null;
+        }
+      })();
+      let screenshotMode = savedMode === 'dark' || savedMode === 'light'
+        ? savedMode
+        : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+
+      function screenshotSrcForMode(trigger, mode) {
+        return trigger.getAttribute(`data-${mode}-src`) || trigger.getAttribute('data-lightbox-src');
+      }
+
+      function setScreenshotMode(mode) {
+        screenshotMode = mode;
+        document.documentElement.setAttribute('data-theme', mode);
+        if (modeToggle) modeToggle.setAttribute('data-active-mode', mode);
+        if (modeSwitch) modeSwitch.checked = mode === 'dark';
+        if (modeCurrentLabel) modeCurrentLabel.textContent = mode === 'dark' ? 'Dark' : 'Light';
+        if (themeColorMeta) themeColorMeta.setAttribute('content', mode === 'dark' ? '#0d1217' : '#f8f8f5');
+        try {
+          window.localStorage.setItem('balancebookDisplayMode', mode);
+        } catch (_) {}
+
+        triggers.forEach((trigger) => {
+          const src = screenshotSrcForMode(trigger, mode);
+          const image = trigger.querySelector('img');
+          trigger.setAttribute('data-lightbox-src', src);
+          if (image) image.src = src;
+        });
+
+        themeIcons.forEach((icon) => {
+          icon.src = icon.getAttribute(`data-${mode}-src`) || icon.src;
+        });
+
+        themeImages.forEach((image) => {
+          image.src = image.getAttribute(`data-${mode}-src`) || image.src;
+        });
+      }
 
       function openLightbox(trigger) {
-        const src = trigger.getAttribute('data-lightbox-src');
+        const src = screenshotSrcForMode(trigger, screenshotMode);
         const alt = trigger.getAttribute('data-lightbox-alt') || '';
         lightboxImage.src = src;
         lightboxImage.alt = alt;
@@ -1509,6 +1885,12 @@
         trigger.addEventListener('click', () => openLightbox(trigger));
       });
 
+      if (modeSwitch) {
+        modeSwitch.addEventListener('change', () => {
+          setScreenshotMode(modeSwitch.checked ? 'dark' : 'light');
+        });
+      }
+
       closeButtons.forEach((button) => {
         button.addEventListener('click', closeLightbox);
       });
@@ -1526,6 +1908,7 @@
       });
 
       lightboxImage.addEventListener('click', toggleZoom);
+      setScreenshotMode(screenshotMode);
     }());
   </script>
 </body>
