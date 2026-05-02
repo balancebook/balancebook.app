@@ -1150,6 +1150,22 @@
         0 12px 28px rgba(0, 0, 0, 0.24);
     }
 
+    :root[data-theme="light"] .nav-cta,
+    :root[data-theme="light"] .btn-appstore,
+    :root[data-theme="dark"] .nav-cta,
+    :root[data-theme="dark"] .btn-appstore {
+      background: #0f1720;
+      color: #ffffff;
+    }
+
+    :root[data-theme="light"] .nav-cta:hover,
+    :root[data-theme="light"] .btn-appstore:hover,
+    :root[data-theme="dark"] .nav-cta:hover,
+    :root[data-theme="dark"] .btn-appstore:hover {
+      background: #1b2430;
+      color: #ffffff;
+    }
+
     :root[data-theme="light"] .eyebrow {
       background: rgba(255, 255, 255, 0.68);
       border-color: rgba(35, 104, 70, 0.12);
@@ -1355,8 +1371,8 @@
     <div class="shell hero-grid">
       <div>
         <div class="eyebrow">Now on iPhone</div>
-        <h1>Track income, expenses, and budgets in one place.</h1>
-        <p>balancebook is an iPhone app for keeping up with day-to-day finances. Record transactions, review spending, manage budgets, and separate personal, household, or business ledgers when needed.</p>
+        <h1>See your full financial picture.</h1>
+        <p>Log transactions, review cash flow, track budgets, and keep personal, household, or business ledgers separate when you need to.</p>
         <div class="hero-actions">
           <a href="#" class="btn-appstore">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
@@ -1408,7 +1424,7 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 21a6.5 6.5 0 0 1 13 0"/><circle cx="17" cy="9" r="2.5"/><path d="M21.5 18a4.5 4.5 0 0 0-7-3.7"/></svg>
           </span>
           <span class="trust-text">
-            <strong>Shared ledgers</strong>
+            <strong>Multi-ledger and sharing</strong>
             <span>Keep finances separate and share a ledger with a partner or teammate when needed.</span>
           </span>
         </div>
@@ -1429,8 +1445,8 @@
     <div class="shell">
       <div class="section-head">
         <div class="section-eyebrow">Features</div>
-        <h2 class="section-title">More than a basic expense tracker.</h2>
-        <p class="section-lede">balancebook supports everyday transaction tracking, monthly review, budgets, recurring entries, separate ledgers, shared access, bank imports, net worth tracking, and data export. This list is ordered by the features most people are likely to use first.</p>
+        <h2 class="section-title">Simple, intuitive, and feature rich.</h2>
+        <p class="section-lede">Track by hand or auto-import transactions, set budgets, and keep the routine simple. When you need more, add recurring entries, account syncing, shared ledgers, net worth tracking, and exports.</p>
       </div>
 
       <div class="features-grid">
@@ -1550,9 +1566,9 @@
   <section id="screens" class="screenshots">
     <div class="shell">
       <div class="section-head screens-head">
-        <div class="section-eyebrow">The app</div>
-        <h2 class="section-title">The main parts of the app at a glance.</h2>
-        <p class="section-lede">Entries, review, categories, budgets, and cash flow are all available from the same core workflow, so the app stays consistent as your data grows.</p>
+        <div class="section-eyebrow">App</div>
+        <h2 class="section-title">A screenshot is worth 1,000 words.</h2>
+        <p class="section-lede">Add an entry, review the month, scan categories, then check budgets or cash flow.</p>
         <label class="screenshot-mode-toggle" data-screenshot-toggle data-active-mode="dark">
           <input id="screenshot-mode-switch" type="checkbox" role="switch" aria-label="Use dark mode" checked />
           <span class="screenshot-mode-switch" aria-hidden="true"></span>
@@ -1606,8 +1622,8 @@
       <div class="section-head pricing-head">
         <div>
           <div class="section-eyebrow">Pricing</div>
-          <h2 class="section-title">Start with the free plan and upgrade if you need more capacity.</h2>
-          <p class="section-lede">Basic covers everyday tracking. Pro adds more ledgers, more analysis, shared access, net worth tracking, and data import and export tools.</p>
+          <h2 class="section-title">Use Basic for everyday tracking. Add Pro for bigger setups.</h2>
+          <p class="section-lede">Basic covers everyday tracking. Pro adds multiple ledgers, shared access, connected accounts, net worth, deeper review, and export tools.</p>
         </div>
         <div class="pricing-summary">
           <div class="pricing-summary-card">
@@ -1625,7 +1641,6 @@
       <div class="pricing-compare">
         <div class="pricing-compare-head">
           <h3>Compare plans</h3>
-          <p>Everything important is in one place: limits and Pro-only features.</p>
         </div>
         <table class="compare-table">
           <thead>
@@ -1747,7 +1762,6 @@
       <div class="cta-panel">
         <img src="assets/AppLogo-iOS-Default-512x512@1x.png" alt="" data-theme-icon data-light-src="assets/AppLogo-iOS-Default-512x512@1x.png" data-dark-src="assets/AppIcon-iOS-Dark-512x512@1x.png" />
         <h2>Download balancebook for iPhone.</h2>
-        <p>Start with the free plan and use it to track transactions, monitor budgets, and review your finances over time.</p>
         <a href="#" class="btn-appstore" style="display:inline-flex;">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
           <span class="btn-appstore-text">
