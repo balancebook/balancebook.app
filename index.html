@@ -1348,9 +1348,176 @@
       .compare-table td { padding: 12px 14px; }
       .footer-inner { flex-direction: column; align-items: flex-start; }
     }
+
+    /* ---- Guilloché lace backdrop (port of design "Lace Refined" V1:
+            wide-sweep trochoid R=1600 r=71 d=360 71 turns,
+            anchored TL with medium radial fade toward BR) ---- */
+    body { isolation: isolate; }
+
+    .lace-backdrop {
+      position: fixed;
+      inset: 0;
+      z-index: -1;
+      pointer-events: none;
+      overflow: hidden;
+    }
+
+    .lace-backdrop__ink {
+      position: absolute;
+      inset: 0;
+      background-image: linear-gradient(135deg, #1d5a3c 0%, #236846 28%, #5a7a52 50%, #c95c4e 78%, #d97560 100%);
+      -webkit-mask-image: var(--lace-mask, none);
+              mask-image: var(--lace-mask, none);
+      -webkit-mask-size: 100% 100%;
+              mask-size: 100% 100%;
+      -webkit-mask-repeat: no-repeat;
+              mask-repeat: no-repeat;
+      opacity: 0.75;
+    }
+
+    @media (prefers-color-scheme: dark) {
+      .lace-backdrop__ink { opacity: 0.55; }
+    }
   </style>
 </head>
 <body>
+  <div class="lace-backdrop" aria-hidden="true">
+    <div class="lace-backdrop__ink"></div>
+  </div>
+  <script>
+    (function () {
+      var TAU = Math.PI * 2;
+
+      // ---------- trochoid: small circle rolling inside a big one ----------
+      // Produces ring/band lace patterns wrapping around the pattern
+      // origin. Every line stays within an annular band — none of
+      // them pass through the center.
+      //
+      //   R              radius of the big (fixed) circle. Sets the
+      //                  overall pattern size; band sits roughly at
+      //                  radius R−r from origin.
+      //   r              radius of the small (rolling) circle. Petal
+      //                  count per traversal is (R−r)/r — smaller r
+      //                  means more, finer petals.
+      //   d              pen offset from the rolling circle's center.
+      //                  Controls petal SHAPE and band WIDTH (≈ 2d).
+      //                    d < r  → smooth curtate loops (no kinks)
+      //                    d = r  → true cusps at outer envelope
+      //                    d > r  → self-intersecting prolate loops
+      //   turns          revolutions of t. Pattern closes after
+      //                  R/gcd(R,r) turns; render fewer for partial
+      //                  drift / lace, more to retrace into denser mesh.
+      //   samplesPerTurn smoothness only.
+      function trochoid(R, r, d, turns, samplesPerTurn) {
+        var samples = turns * samplesPerTurn;
+        var step = (TAU * turns) / samples;
+        var p = '';
+        for (var i = 0; i <= samples; i++) {
+          var t = i * step;
+          var x = (R - r) * Math.cos(t) + d * Math.cos(((R - r) / r) * t);
+          var y = (R - r) * Math.sin(t) - d * Math.sin(((R - r) / r) * t);
+          p += (i === 0 ? 'M' : 'L') + x.toFixed(2) + ' ' + y.toFixed(2) + ' ';
+        }
+        return p;
+      }
+
+      // ---------- rose: r = a · cos(k · θ + φ) ----------
+      // Flower-petal shapes radiating from origin. Every line passes
+      // through the center.
+      //
+      //   a              petal length (size of the flower)
+      //   k              petal count: odd integer → k petals;
+      //                  even integer → 2k petals; non-integer →
+      //                  never closes, layered lace
+      //   phi            phase rotation in radians. 0 leaves the rose
+      //                  pointing right. Math.PI/k = half a petal
+      //                  shift; any value rotates the whole flower.
+      //   turns          revolutions of θ. Integer k: doesn't matter.
+      //                  Non-integer k: more turns = denser lace.
+      //   samplesPerTurn smoothness only.
+      function rose(a, k, phi, turns, samplesPerTurn) {
+        var samples = turns * samplesPerTurn;
+        var step = (TAU * turns) / samples;
+        var p = '';
+        for (var i = 0; i <= samples; i++) {
+          var t = i * step;
+          var radius = a * Math.cos(k * t + phi);
+          var x = radius * Math.cos(t);
+          var y = radius * Math.sin(t);
+          p += (i === 0 ? 'M' : 'L') + x.toFixed(2) + ' ' + y.toFixed(2) + ' ';
+        }
+        return p;
+      }
+
+      // ---------- wave: r = base + amp · cos(k · θ + φ) ----------
+      // A "wavy circle" — a ring at distance `base` from origin whose
+      // radius oscillates by ±amp. This is what produces the
+      // scalloped outer bands you see in banknote rosettes (where
+      // the curve hugs a ring rather than passing through the center).
+      //
+      //   base           ring's average distance from origin (where
+      //                  the wavy band sits)
+      //   amp            wave amplitude — how far the scallops bulge
+      //                  in and out. amp < base keeps it from passing
+      //                  through origin.
+      //   k              number of wave bumps around the ring (integer
+      //                  closes a clean wavy circle; non-integer drifts)
+      //   phi            phase rotation — rotates the wave pattern
+      //                  around the ring (Math.PI/k = half-bump shift).
+      //   turns          1 = one clean closed loop with integer k;
+      //                  more turns layer offsets when k is non-integer.
+      //   samplesPerTurn smoothness only.
+      function wave(base, amp, k, phi, turns, samplesPerTurn) {
+        var samples = turns * samplesPerTurn;
+        var step = (TAU * turns) / samples;
+        var p = '';
+        for (var i = 0; i <= samples; i++) {
+          var t = i * step;
+          var radius = base + amp * Math.cos(k * t + phi);
+          var x = radius * Math.cos(t);
+          var y = radius * Math.sin(t);
+          p += (i === 0 ? 'M' : 'L') + x.toFixed(2) + ' ' + y.toFixed(2) + ' ';
+        }
+        return p;
+      }
+
+      // Trochoid kept around — disabled.
+      var pathT = trochoid(1349, 120.5, 350.2, 402.2, 160);
+      // var pathT = trochoid(1369, 210.6, 450.3, 350, 160);
+
+      // Rose. (a, k, phi, turns, samples) — phi=0 means pointing right.
+      var pathR = rose(680, 5.19, 5000, 100, 340);
+
+      // Wave. (base, amp, k, phi, turns, samples) — wavy ring around origin.
+      var pathW =  wave(400, 400, 4.16, 0, 40, 240);
+
+      // V6's crop — pattern origin near the TL viewport corner.
+      // Radial fade-to-transparent baked into the SVG mask so the
+      // outer (BR) reaches of the lace dissolve to transparency,
+      // letting the body's red→green bloom show through.
+      var svg =
+        '<svg xmlns="http://www.w3.org/2000/svg" viewBox="50 50 1280 800" preserveAspectRatio="none">' +
+          '<defs>' +
+            '<radialGradient id="laceFade" gradientUnits="userSpaceOnUse" cx="50" cy="50" r="1500">' +
+              '<stop offset="0%"   stop-color="white" stop-opacity="1"/>' +
+              '<stop offset="45%"  stop-color="white" stop-opacity="0.85"/>' +
+              '<stop offset="75%"  stop-color="white" stop-opacity="0.3"/>' +
+              '<stop offset="100%" stop-color="white" stop-opacity="0"/>' +
+            '</radialGradient>' +
+            '<mask id="laceMask" maskUnits="userSpaceOnUse" x="50" y="50" width="1280" height="800">' +
+              '<rect x="50" y="50" width="1280" height="800" fill="url(#laceFade)"/>' +
+            '</mask>' +
+          '</defs>' +
+          '<g mask="url(#laceMask)">' +
+            '<path d="' + pathT + '" fill="none" stroke="#000" stroke-width="0.5"/>' +
+            // '<path d="' + pathR + '" fill="none" stroke="#000" stroke-width="0.8"/>' +
+            // '<path d="' + pathW + '" fill="none" stroke="#000" stroke-width="0.8"/>' +
+          '</g>' +
+        '</svg>';
+      var url = 'url("data:image/svg+xml;utf8,' + encodeURIComponent(svg) + '")';
+      document.documentElement.style.setProperty('--lace-mask', url);
+    })();
+  </script>
   <nav>
     <div class="nav-inner">
       <a class="brand" href="/">
