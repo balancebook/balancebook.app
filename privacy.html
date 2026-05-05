@@ -4,6 +4,19 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — balancebook</title>
+  <meta name="theme-color" content="#f8f8f5" />
+  <script>
+    (function () {
+      let mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      try {
+        const savedMode = window.localStorage.getItem('balancebookDisplayMode');
+        if (savedMode === 'dark' || savedMode === 'light') mode = savedMode;
+      } catch (_) {}
+      document.documentElement.setAttribute('data-theme', mode);
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeColorMeta) themeColorMeta.setAttribute('content', mode === 'dark' ? '#0d1217' : '#f8f8f5');
+    }());
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
