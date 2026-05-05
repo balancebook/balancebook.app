@@ -219,6 +219,40 @@ footer {
 
 /* ---------- Theme-attribute overrides (toggle wins over @media) ---------- */
 
+:root[data-theme="light"] {
+  --ink: #0f1720;
+  --body: #4d5966;
+  --muted: #6d7783;
+  --line: rgba(15, 23, 32, 0.1);
+  --line-soft: rgba(15, 23, 32, 0.06);
+  --surface: rgba(255, 255, 255, 0.82);
+  --surface-strong: rgba(255, 255, 255, 0.94);
+  --bg: #f8f8f5;
+  --bg-soft: #f3f4ef;
+  --accent: #236846;
+  --accent-soft: rgba(35, 104, 70, 0.08);
+  --shadow-sm: 0 6px 18px rgba(15, 23, 32, 0.05);
+  --shadow-md: 0 18px 44px rgba(15, 23, 32, 0.08);
+  color-scheme: light;
+}
+
+:root[data-theme="dark"] {
+  --ink: #edf2f7;
+  --body: #b5c0cb;
+  --muted: #8f9baa;
+  --line: rgba(255, 255, 255, 0.1);
+  --line-soft: rgba(255, 255, 255, 0.06);
+  --surface: rgba(17, 24, 31, 0.82);
+  --surface-strong: rgba(20, 27, 34, 0.94);
+  --bg: #0d1217;
+  --bg-soft: #111820;
+  --accent: #6abb8e;
+  --accent-soft: rgba(106, 187, 142, 0.12);
+  --shadow-sm: 0 8px 24px rgba(0, 0, 0, 0.24);
+  --shadow-md: 0 20px 52px rgba(0, 0, 0, 0.34);
+  color-scheme: dark;
+}
+
 :root[data-theme="light"] body {
   background:
     radial-gradient(circle at 12% 0%, rgba(201, 92, 78, 0.26), transparent 34%),
@@ -301,6 +335,8 @@ body { isolation: isolate; }
 @media (prefers-color-scheme: dark) {
   .lace-backdrop__ink { opacity: 0.55; }
 }
+
+:root[data-theme="dark"] .lace-backdrop__ink { opacity: 0.55; }
 
 /* ---------- Mobile responsive (shared elements only) ---------- */
 

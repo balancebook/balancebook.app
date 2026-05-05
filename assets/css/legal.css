@@ -113,6 +113,10 @@
   .table-wrap { background: rgba(255, 255, 255, 0.02); }
 }
 
+:root[data-theme="dark"] .table-wrap {
+  background: rgba(255, 255, 255, 0.02);
+}
+
 table {
   width: 100%;
   border-collapse: collapse;
