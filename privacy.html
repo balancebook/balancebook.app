@@ -337,6 +337,16 @@
     @media (prefers-color-scheme: dark) {
       .lace-backdrop__ink { opacity: 0.55; }
     }
+
+    :root[data-theme="light"] footer {
+      background: rgba(255, 255, 255, 0.56);
+      border-top-color: var(--line);
+    }
+
+    :root[data-theme="dark"] footer {
+      background: rgba(10, 15, 20, 0.78);
+      border-top-color: rgba(255, 255, 255, 0.06);
+    }
   </style>
 </head>
 <body>
