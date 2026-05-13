@@ -363,6 +363,21 @@ body { isolation: isolate; }
   backdrop-filter: blur(10px);
   -webkit-backdrop-filter: blur(10px);
 }
+.cookie-banner-close {
+  position: absolute;
+  top: 6px;
+  right: 8px;
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  padding: 6px 8px;
+  cursor: pointer;
+  border-radius: 6px;
+}
+.cookie-banner-close:hover { color: var(--ink); background: var(--line-soft); }
 .cookie-banner-inner {
   max-width: 1080px;
   margin: 0 auto;
