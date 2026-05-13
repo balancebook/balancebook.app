@@ -8,6 +8,24 @@
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
+    // Consent Mode v2 — default everything to denied. The cookie
+    // banner (assets/js/consent.js) flips analytics_storage to
+    // granted when the user accepts; until then GA4 only sends
+    // cookieless pings. Prior accepts are read from localStorage so
+    // the analytics fires on the same page load as the decision.
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    });
+    try {
+      if (localStorage.getItem('balancebookCookieConsent') === 'granted') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+    } catch (_) {}
+
     gtag('config', 'G-QJ42V03KC6');
   </script>
   <meta charset="UTF-8" />
@@ -320,9 +338,26 @@
         <li><a href="support.html">Support</a></li>
         <li><a href="privacy.html">Privacy</a></li>
         <li><a href="terms.html">Terms</a></li>
+        <li><a href="#" data-cookie-open>Cookie preferences</a></li>
       </ul>
     </div>
   </footer>
 
+
+  <!-- Cookie consent banner. Hidden until consent.js shows it on first
+       visit; user choice persists in localStorage. -->
+  <aside class="cookie-banner" id="cookieBanner" hidden>
+    <div class="cookie-banner-inner">
+      <div class="cookie-banner-text">
+        <strong>Cookies &amp; analytics</strong>
+        <p>This site uses Google Analytics to understand how visitors find and use the marketing pages. The balancebook iOS app itself uses no cookies or trackers. See our <a href="privacy.html#cookies">privacy policy</a>.</p>
+      </div>
+      <div class="cookie-banner-actions">
+        <button type="button" data-cookie-action="essential">Essentials only</button>
+        <button type="button" data-cookie-action="accept" class="primary">Accept all</button>
+      </div>
+    </div>
+  </aside>
+  <script src="assets/js/consent.js" defer></script>
 </body>
 </html>
