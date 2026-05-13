@@ -33,10 +33,24 @@
     var banner = document.getElementById('cookieBanner');
     if (!banner) return;
 
+    // The banner is `position: fixed; bottom: 0`, so without this it
+    // overlaps the footer and makes the links underneath unclickable.
+    // Adding body padding equal to the banner's measured height pushes
+    // all page content (footer included) above the banner.
+    function syncBodyPadding() {
+      if (banner.hidden) {
+        document.body.style.paddingBottom = '';
+      } else {
+        document.body.style.paddingBottom = (banner.offsetHeight + 16) + 'px';
+      }
+    }
+
     // Show the banner if no decision has been recorded yet.
     if (readConsent() === null) {
       banner.hidden = false;
     }
+    syncBodyPadding();
+    window.addEventListener('resize', syncBodyPadding);
 
     banner.addEventListener('click', function (event) {
       var action = event.target.getAttribute('data-cookie-action');
@@ -44,10 +58,14 @@
       if (action === 'accept') {
         writeConsent('granted');
         grantAnalytics();
-      } else if (action === 'essential') {
+      } else if (action === 'essential' || action === 'dismiss') {
+        // Closing the banner without an explicit accept = no consent;
+        // analytics_storage stays denied. We persist so we don't pester
+        // the user on every page load.
         writeConsent('denied');
       }
       banner.hidden = true;
+      syncBodyPadding();
     });
 
     // Footer "Cookie preferences" link re-opens the banner so users can
@@ -64,6 +82,7 @@
           window.gtag('consent', 'update', { 'analytics_storage': 'denied' });
         }
         banner.hidden = false;
+        syncBodyPadding();
       });
     }
   }
