@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-QJ42V03KC6"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    // Consent Mode v2 — default everything to denied. This landing page
+    // shows no cookie banner, so GA4 stays on cookieless pings unless the
+    // visitor already accepted analytics on another page of the site.
+    gtag('consent', 'default', {
+      'ad_storage': 'denied',
+      'ad_user_data': 'denied',
+      'ad_personalization': 'denied',
+      'analytics_storage': 'denied',
+      'wait_for_update': 500
+    });
+    try {
+      if (localStorage.getItem('balancebookCookieConsent') === 'granted') {
+        gtag('consent', 'update', { 'analytics_storage': 'granted' });
+      }
+    } catch (_) {}
+
+    gtag('config', 'G-QJ42V03KC6');
+  </script>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Get balancebook — free budgeting app for iPhone</title>
+  <meta name="description" content="Write it down. See where it goes. Watch your savings grow. balancebook is a simple budgeting app for iPhone. Free on the App Store, no trial to cancel." />
+  <meta name="robots" content="noindex, follow" />
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+  <!-- Safari shows a native App Store banner; the campaign tokens attribute it like the button below. -->
+  <meta name="apple-itunes-app" content="app-id=6760606996, affiliate-data=pt=128606786&amp;ct=facebook" />
+  <meta name="theme-color" content="#f8f8f5" />
+  <script>
+    (function () {
+      let mode = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      try {
+        const savedMode = window.sessionStorage.getItem('balancebookDisplayMode');
+        if (savedMode === 'dark' || savedMode === 'light') mode = savedMode;
+      } catch (_) {}
+      // ?theme=dark|light forces a look for previewing.
+      const forced = /[?&]theme=(dark|light)(?:&|$)/.exec(window.location.search);
+      if (forced) mode = forced[1];
+      document.documentElement.setAttribute('data-theme', mode);
+      const themeColorMeta = document.querySelector('meta[name="theme-color"]');
+      if (themeColorMeta) themeColorMeta.setAttribute('content', mode === 'dark' ? '#0d1217' : '#f8f8f5');
+    }());
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Outfit:wght@400;500;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="assets/css/site.css" />
+  <style>
+    /* ---- Ad landing page: one job, the App Store button ---- */
+    .get-nav .nav-inner { justify-content: center; }
+
+    .get { padding: 28px 0 56px; }
+
+    .get-grid {
+      display: grid;
+      grid-template-columns: 1.05fr 0.95fr;
+      gap: 56px;
+      align-items: center;
+    }
+
+    .get-copy { text-align: left; }
+
+    .eyebrow {
+      display: inline-block;
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: var(--accent);
+      margin-bottom: 18px;
+    }
+
+    .get h1 {
+      font-size: clamp(36px, 5.2vw, 60px);
+      line-height: 1.04;
+      letter-spacing: -0.03em;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 20px;
+      text-wrap: balance;
+    }
+
+    .get-lead {
+      font-size: 18px;
+      line-height: 1.55;
+      color: var(--body);
+      max-width: 40ch;
+      margin-bottom: 30px;
+    }
+
+    .btn-get {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      min-height: 72px;
+      padding: 14px 30px;
+      border-radius: 18px;
+      background: #0f1720;
+      color: #ffffff;
+      box-shadow: 0 22px 44px rgba(15, 23, 32, 0.22);
+      transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+    }
+
+    .btn-get:hover,
+    .btn-get:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 28px 52px rgba(15, 23, 32, 0.28);
+      background: #1b2430;
+      outline: none;
+    }
+
+    .btn-get svg { width: 30px; height: 30px; flex: none; }
+
+    .btn-get-text {
+      display: flex;
+      flex-direction: column;
+      line-height: 1.1;
+      text-align: left;
+    }
+
+    .btn-get-text small { font-size: 13px; font-weight: 400; opacity: 0.82; }
+    .btn-get-text span { font-size: 24px; font-weight: 600; letter-spacing: -0.01em; }
+
+    :root[data-theme="dark"] .btn-get {
+      background: #ffffff;
+      color: #0f1720;
+      box-shadow: 0 22px 44px rgba(0, 0, 0, 0.45);
+    }
+
+    :root[data-theme="dark"] .btn-get:hover,
+    :root[data-theme="dark"] .btn-get:focus-visible {
+      background: #f1f3f4;
+    }
+
+    .get-fine {
+      margin-top: 16px;
+      font-size: 14px;
+      color: var(--muted);
+    }
+
+    .get-fine b { color: var(--body); font-weight: 600; }
+
+    .get-visual {
+      display: flex;
+      justify-content: center;
+    }
+
+    .get-shot {
+      width: min(100%, 340px);
+      max-height: 600px;
+      overflow: hidden;
+      background: #0a0a0a;
+      border-radius: 36px;
+      padding: 9px;
+      box-shadow: 0 30px 60px rgba(15, 23, 32, 0.22);
+      -webkit-mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+              mask-image: linear-gradient(to bottom, #000 72%, transparent 100%);
+    }
+
+    .get-shot img { width: 100%; border-radius: 28px; }
+
+    .points {
+      margin-top: 56px;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+    }
+
+    .point {
+      display: flex;
+      gap: 14px;
+      align-items: flex-start;
+      padding: 18px 20px;
+      border-radius: var(--radius-lg);
+      background: var(--surface);
+      border: 1px solid var(--line-soft);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .point-icon {
+      flex: none;
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    .point strong { display: block; font-size: 15px; color: var(--ink); margin-bottom: 2px; }
+    .point span { font-size: 14px; line-height: 1.45; color: var(--body); }
+
+    .get-again {
+      margin-top: 56px;
+      text-align: center;
+    }
+
+    .get-again p {
+      font-size: 17px;
+      color: var(--body);
+      margin-bottom: 18px;
+    }
+
+    @media (max-width: 860px) {
+      .get { padding: 20px 0 48px; }
+      .get-grid { grid-template-columns: 1fr; gap: 36px; }
+      .get-copy { text-align: center; }
+      .get-lead { margin-left: auto; margin-right: auto; }
+      .btn-get { width: min(100%, 420px); }
+      .get-shot { width: min(100%, 300px); max-height: 460px; }
+      .points { grid-template-columns: 1fr; margin-top: 40px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="lace-backdrop" aria-hidden="true">
+    <div class="lace-backdrop__ink"></div>
+  </div>
+  <script src="assets/js/site.js"></script>
+  <nav class="get-nav">
+    <div class="nav-inner">
+      <a class="brand" href="/">balancebook</a>
+    </div>
+  </nav>
+
+  <main class="get">
+    <div class="shell">
+      <div class="get-grid">
+        <div class="get-copy">
+          <div class="eyebrow">Free on the App Store</div>
+          <h1>Write it down. See where it goes. Watch your savings grow.</h1>
+          <p class="get-lead">balancebook is a simple budgeting app for iPhone. Log what you spend or import it from your bank, see where every dollar goes, and watch your savings grow.</p>
+          <a href="https://apps.apple.com/app/apple-store/id6760606996?pt=128606786&ct=facebook&mt=8" class="btn-get" data-store-link="top">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+            <span class="btn-get-text">
+              <small>Download on the</small>
+              <span>App Store</span>
+            </span>
+          </a>
+          <p class="get-fine"><b>Free.</b> No trial to cancel. Start without an account.</p>
+        </div>
+
+        <div class="get-visual">
+          <div class="get-shot">
+            <img src="assets/Simulator Screenshot - iPhone 14 Plus - 2026-10-27 at 22.35.41.png" alt="balancebook cashflow screen showing income flowing into spending categories" loading="eager" data-theme-icon data-light-src="assets/Simulator Screenshot - iPhone 14 Plus - 2026-10-27 at 22.35.41.png" data-dark-src="assets/Simulator Screenshot - iPhone 14 Plus - 2026-10-27 at 22.35.44.png" />
+          </div>
+        </div>
+      </div>
+
+      <div class="points">
+        <div class="point">
+          <span class="point-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4Z"/></svg>
+          </span>
+          <span>
+            <strong>Write it down, or auto-import it</strong>
+            <span>Log an entry in seconds, or connect a bank and let the transactions come to you.</span>
+          </span>
+        </div>
+        <div class="point">
+          <span class="point-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 3v18h18"/><path d="M7 15l4-5 4 3 5-7"/></svg>
+          </span>
+          <span>
+            <strong>See where it goes</strong>
+            <span>Cashflow, categories and budgets show every dollar from paycheck to purchase.</span>
+          </span>
+        </div>
+        <div class="point">
+          <span class="point-icon" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10Z"/></svg>
+          </span>
+          <span>
+            <strong>Private by default</strong>
+            <span>No ads, no third-party trackers, your data is never sold.</span>
+          </span>
+        </div>
+      </div>
+
+      <div class="get-again">
+        <p>Free on the App Store. Takes a minute to set up.</p>
+        <a href="https://apps.apple.com/app/apple-store/id6760606996?pt=128606786&ct=facebook&mt=8" class="btn-get" data-store-link="bottom">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
+          <span class="btn-get-text">
+            <small>Download on the</small>
+            <span>App Store</span>
+          </span>
+        </a>
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <div class="shell footer-inner">
+      <div class="footer-brand">
+        <img src="assets/AppIcon-iOS-Default-1024x1024@1x.png" alt="" data-theme-icon data-light-src="assets/AppIcon-iOS-Default-1024x1024@1x.png" data-dark-src="assets/AppIcon-iOS-Dark-1024x1024@1x.png" />
+        <span>© 2026 balancebook by of deep origin LLC</span>
+      </div>
+      <ul class="footer-links">
+        <li><a href="about.html">About Us</a></li>
+        <li><a href="support.html">Support</a></li>
+        <li><a href="privacy.html">Privacy</a></li>
+        <li><a href="terms.html">Terms</a></li>
+      </ul>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      // ?ct=<token> swaps the App Store campaign token so the same page can
+      // serve other ad sources; default is the Facebook/Instagram token.
+      var links = document.querySelectorAll('a[data-store-link]');
+      var match = /[?&]ct=([A-Za-z0-9_-]{1,40})(?:&|$)/.exec(window.location.search);
+      var ct = match ? match[1] : 'facebook';
+      for (var i = 0; i < links.length; i++) {
+        if (match) links[i].href = links[i].href.replace(/([?&]ct=)[^&]*/, '$1' + ct);
+        links[i].addEventListener('click', function (e) {
+          if (typeof window.gtag === 'function') {
+            window.gtag('event', 'app_store_click', { placement: e.currentTarget.getAttribute('data-store-link'), ct: ct });
+          }
+        });
+      }
+    }());
+  </script>
+
+</body>
+</html>
