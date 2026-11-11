@@ -34,7 +34,7 @@
   <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
   <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
   <!-- Safari shows a native App Store banner; the campaign tokens attribute it like the button below. -->
-  <meta name="apple-itunes-app" content="app-id=6760606996, affiliate-data=pt=128606786&amp;ct=facebook" />
+  <meta name="apple-itunes-app" content="app-id=6760606996, affiliate-data=pt=128606786&amp;ct=meta" />
   <meta name="theme-color" content="#f8f8f5" />
   <script>
     (function () {
@@ -239,7 +239,7 @@
           <div class="eyebrow">Free on the App Store</div>
           <h1>Write it down. See where it goes. Watch your savings grow.</h1>
           <p class="get-lead">balancebook is a simple budgeting app for iPhone. Log what you spend or import it from your bank, see where every dollar goes, and watch your savings grow.</p>
-          <a href="https://apps.apple.com/app/apple-store/id6760606996?pt=128606786&ct=facebook&mt=8" class="btn-get" data-store-link="top">
+          <a href="https://apps.apple.com/app/apple-store/id6760606996?pt=128606786&ct=meta&mt=8" class="btn-get" data-store-link="top">
             <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
             <span class="btn-get-text">
               <small>Download on the</small>
@@ -288,7 +288,7 @@
 
       <div class="get-again">
         <p>Free on the App Store. Takes a minute to set up.</p>
-        <a href="https://apps.apple.com/app/apple-store/id6760606996?pt=128606786&ct=facebook&mt=8" class="btn-get" data-store-link="bottom">
+        <a href="https://apps.apple.com/app/apple-store/id6760606996?pt=128606786&ct=meta&mt=8" class="btn-get" data-store-link="bottom">
           <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.71 19.5c-.83 1.24-1.71 2.45-3.05 2.47-1.34.03-1.77-.79-3.29-.79-1.53 0-2 .77-3.27.82-1.31.05-2.3-1.32-3.14-2.53C4.25 17 2.94 12.45 4.7 9.39c.87-1.52 2.43-2.48 4.12-2.51 1.28-.02 2.5.87 3.29.87.78 0 2.26-1.07 3.8-.91.65.03 2.47.26 3.64 1.98-.09.06-2.17 1.28-2.15 3.81.03 3.02 2.65 4.03 2.68 4.04-.03.07-.42 1.44-1.38 2.83M13 3.5c.73-.83 1.94-1.46 2.94-1.5.13 1.17-.34 2.35-1.04 3.19-.69.85-1.83 1.51-2.95 1.42-.15-1.15.41-2.35 1.05-3.11z"/></svg>
           <span class="btn-get-text">
             <small>Download on the</small>
@@ -320,7 +320,7 @@
       // serve other ad sources; default is the Facebook/Instagram token.
       var links = document.querySelectorAll('a[data-store-link]');
       var match = /[?&]ct=([A-Za-z0-9_-]{1,40})(?:&|$)/.exec(window.location.search);
-      var ct = match ? match[1] : 'facebook';
+      var ct = match ? match[1] : 'meta';
       for (var i = 0; i < links.length; i++) {
         if (match) links[i].href = links[i].href.replace(/([?&]ct=)[^&]*/, '$1' + ct);
         links[i].addEventListener('click', function (e) {
